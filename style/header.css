@@ -1,0 +1,40 @@
+.header {
+  overflow: hidden;
+  background-color: transparent;
+  padding: 2px 1px;
+  margin-bottom: 2rem;
+}
+
+.site-title {
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--text);
+  font-family: 'Anton', sans-serif;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 1rem;
+  color: var(--text);
+  margin-top: -0.1rem;
+}
+
+/* 🌙 Dark mode support */
+body.dark-mode .site-header {
+  background: #1a1a1a;
+  border-color: #f0f0f0;
+  box-shadow: 0 4px 0 #f0f0f0;
+}
+
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .header-right {
+    float: none;
+  }
+}

@@ -1,0 +1,369 @@
+/* intro title */
+.intro-tittle {
+  padding-top: 0rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Panel Grid Layout */
+.panel-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 100rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Left column for one tall panel */
+.left-column {
+  flex: 1;
+  min-width: 300px;
+  height: 30rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Right column for two stacked panels */
+.right-column {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  height: 26.9rem;
+}
+
+/* Panel wrappers (borders + clip shapes) */
+.panel-1-wrapper,
+.panel-2-wrapper,
+.panel-3-wrapper,
+.panel-4-wrapper,
+.panel-5-wrapper {
+  background: var(--border, #000);
+  padding: 3px;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Individual clip-path shapes */
+.panel-1-wrapper {
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+  height: 100%;
+}
+.panel-2-wrapper {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+  height: 100%;
+  margin-bottom: -10px;
+}
+.panel-3-wrapper {
+  clip-path: polygon(0 0, 100% 10%, 100% 79%, 0 100%);
+  height: 100%;
+}
+.panel-4-wrapper {
+  clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 90%);
+  height: 50rem;
+  margin: 2rem auto;
+  margin-top: -7rem;
+  width: 98rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.panel-5-wrapper {
+  clip-path: polygon(0 0, 100% 31%, 100% 100%, 0 100%);
+  height: 16rem;
+  margin: 2rem auto;
+  margin-top: -6rem;
+  width: 98rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Panel inner content */
+.panel-1,
+.panel-2,
+.panel-3,
+.panel-4, 
+.panel-5{
+  background: var(--panel-bg, #fff);
+  padding: 1.5rem;
+  color: var(--text, #000);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.2rem;
+  clip-path: inherit;
+  height: 100%;
+  box-sizing: border-box;
+}
+.panel-4 {
+  padding-top: 7rem; /* drag content lower */
+}
+
+/* Panel 1 Content */
+.intro-content-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+ 
+}
+
+.intro-content-1 img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: 8px;
+  margin-left: 1rem;
+}
+
+.panel-text-1 {
+  flex: 1;
+  min-width: 200px;
+  margin-left: -3rem;
+}
+
+.panel-text-1 h2{
+  font-size: 1.3rem;
+  margin-top: -1rem;
+}
+
+.panel-text-1 p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text, #000);
+}
+
+/* Panel 2 Content */
+
+
+.panel-text-2 h2{
+  font-size: 1.3rem;
+  margin-top: 0rem;
+}
+
+.skills-icon-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0rem;
+  margin-top: 1rem;
+  justify-content: start;
+}
+
+.skill-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 6rem;
+  text-align: center;
+}
+
+.skill-icon img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  margin-bottom: 0.4rem;
+ 
+
+}
+
+.skill-icon span {
+  font-size: 0.9rem;
+  font-weight: bold;
+  font-family: 'Roboto Mono', monospace;
+  color: var(--text, #000);
+}
+
+/* Dark Mode */
+body.dark-mode .skill-icon span {
+  color: #f0f0f0;
+}
+
+/* Panel 3 Content */
+
+.panel-text-3 h2{
+  font-size: 1.3rem;
+  margin-top: 0rem;
+}
+
+.tools-icon-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0rem;
+  margin-top: 1rem;
+  justify-content: start;
+}
+
+.tools-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 6rem;
+  text-align: center;
+}
+
+.tools-icon img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  margin-bottom: 0.4rem;
+ 
+
+}
+
+.tools-icon span {
+  font-size: 0.9rem;
+  font-weight: bold;
+  font-family: 'Roboto Mono', monospace;
+  color: var(--text, #000);
+}
+
+/* Dark Mode */
+body.dark-mode .skill-icon span {
+  color: #f0f0f0;
+}
+
+/* panel 4 content */
+
+
+.panel-4 h2{
+  font-size: 1.3rem;
+  text-align: center;
+  margin-top: -1rem;
+  margin-bottom: 3rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.project-card {
+  background-color: var(--panel-bg, #fff);
+  border: 2px solid var(--border, #000);
+  padding: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.project-card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.project-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.project-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #007acc;
+  text-decoration: underline;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+
+
+/* Panel 5 Content*/
+.panel-5 h2{
+  font-size: 1.3rem;
+  margin-left: 0.2rem;
+}
+.panel-5 p{
+  margin-left: 0.2rem;
+  font-size: 1rem;
+}
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  background: #fff;
+  color: #000;
+  border: 1.5px solid #000;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.contact-item img {
+  width: 24px;
+  height: 24px;
+}
+
+.contact-item:hover {
+  transform: translateY(-3px);
+  background: #f3f3f3;
+}
+
+
+
+
+
+
+
+/* Hover effect */
+.panel-1-wrapper:hover,
+.panel-2-wrapper:hover,
+.panel-3-wrapper:hover,
+.panel-4-wrapper:hover,
+.panel-5-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+
+
+/* Dark mode styles */
+body.dark-mode .panel-1,
+body.dark-mode .panel-2,
+body.dark-mode .panel-3,
+body.dark-mode .panel-4 {
+  background: #1a1a1a;
+  color: #f0f0f0;
+}
+
+body.dark-mode .panel-1-wrapper,
+body.dark-mode .panel-2-wrapper,
+body.dark-mode .panel-3-wrapper,
+body.dark-mode .panel-4-wrapper {
+  background: #f0f0f0;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .panel-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left-column,
+  .right-column {
+    width: 100%;
+  }
+
+  .panel-1-wrapper,
+  .panel-2-wrapper,
+  .panel-3-wrapper,
+  .panel-4-wrapper {
+    max-width: 90%;
+  }
+}

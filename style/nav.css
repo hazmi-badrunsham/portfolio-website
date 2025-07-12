@@ -1,0 +1,41 @@
+.chapter-nav {
+  position: relative;
+  width: 1061px;
+  height: auto;
+  margin: 0 auto;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.nav-panel {
+  display: block;
+  width: 1052px;
+  height: 70px;
+  margin: 0 auto;
+  background-color: #d9d9d9;
+  font-size: 22px;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  line-height: 70px;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-panel:hover {
+  background-color: #000;
+  color: #fff;
+  transform: translateY(-3px);
+}
+@media (max-width: 480px) {
+  .toggle-btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}

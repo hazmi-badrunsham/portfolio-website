@@ -1,0 +1,15 @@
+:root {
+  --bg: #FAF9F6;
+  --text: #000;
+  --panel-bg: #fff;
+  --accent: #D72638;
+  --border: #000;
+}
+
+body.dark-mode {
+  --bg: #0D0D0D;
+  --text: #F0F0F0;
+  --panel-bg: #1a1a1a;
+  --accent: #FF5E5B;
+  --border: #F0F0F0;
+}
