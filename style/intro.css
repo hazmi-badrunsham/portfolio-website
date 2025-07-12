@@ -243,6 +243,9 @@ body.dark-mode .skill-icon span {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.2rem;
   margin-top: 1.5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+
 }
 
 .project-card {
@@ -264,6 +267,7 @@ body.dark-mode .skill-icon span {
 
 .project-card a {
   display: inline-block;
+  font-size: 0.9rem;
   margin-top: 0.5rem;
   color: #007acc;
   text-decoration: underline;
@@ -313,6 +317,10 @@ body.dark-mode .skill-icon span {
 .contact-item:hover {
   transform: translateY(-3px);
   background: #f3f3f3;
+}
+
+.contact-links a{
+  font-size: 1rem;
 }
 
 
