@@ -1,42 +1,56 @@
-fetch('/components/intro.html')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('intro').innerHTML = data;
-  });
-  
-fetch('/components/projects.html')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('projects').innerHTML = data;
-  });
-
-fetch('/components/footer.html')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('footer').innerHTML = data;
-  });
-
-
-
-
-// Load HTML fragments into placeholders
+// Ensure all DOM manipulation happens after the document is fully loaded
 document.addEventListener('DOMContentLoaded', async () => {
-  const load = async (id, file) => {
-    const res = await fetch(file);
-    const html = await res.text();
-    document.getElementById(id).innerHTML = html;
-  };
 
-  await load('chapter-nav', 'components/nav.html');
+    /**
+     * Asynchronously loads an HTML fragment into a specified DOM element.
+     * @param {string} id The ID of the target HTML element.
+     * @param {string} file The path to the HTML fragment file.
+     */
+    const loadHtmlFragment = async (id, file) => {
+        try {
+            const response = await fetch(file);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const html = await response.text();
+            const targetElement = document.getElementById(id);
+            if (targetElement) {
+                targetElement.innerHTML = html;
+            } else {
+                console.error(`Error: Element with ID '${id}' not found for file '${file}'.`);
+            }
+        } catch (error) {
+            console.error(`Failed to load HTML fragment '${file}':`, error);
+        }
+    };
 
-  // Theme toggle (dark mode)
-  const toggleBtn = document.getElementById('themeToggle');
-  const body = document.body;
-  if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
-  toggleBtn.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-  });
+    // Load all HTML fragments sequentially to ensure they are present in the DOM
+    // before applying theme or setting up event listeners.
+    await loadHtmlFragment('panel', '/components/panel.html');
+    await loadHtmlFragment('footer', '/components/footer.html');
+    await loadHtmlFragment('chapter-nav', 'components/nav.html');
+
+    // --- Theme Toggle (Dark Mode) Logic ---
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const bodyElement = document.body;
+
+    // Apply the saved theme preference on initial load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        bodyElement.classList.add('dark-mode');
+    } else {
+        // Ensure light mode is active if no preference or 'light' is explicitly set
+        bodyElement.classList.remove('dark-mode');
+    }
+
+    // Add event listener to the theme toggle button
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            bodyElement.classList.toggle('dark-mode');
+            // Save the current theme preference to local storage
+            localStorage.setItem('theme', bodyElement.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+    } else {
+        console.warn("Warning: Theme toggle button with ID 'themeToggle' not found. Dark mode toggle will not function.");
+    }
 });
-
-

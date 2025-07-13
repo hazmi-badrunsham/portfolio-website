@@ -1,0 +1,442 @@
+/*
+ * Panel Styles - Manga Theme Portfolio
+ *
+ * This stylesheet defines the layout, styling, and responsiveness
+ * for the various panels in the portfolio website.
+ */
+
+/* --- CSS Variables (Custom Properties) --- */
+/* Define reusable values for colors, spacing, and fonts */
+:root {
+    --color-light-bg: #fff;
+    --color-light-text: #000;
+    --color-light-border: #000;
+    --color-link: #007acc; /* Standard link color */
+
+    --color-dark-bg: #1a1a1a;
+    --color-dark-text: #f0f0f0;
+    --color-dark-border: #f0f0f0; /* Border color in dark mode */
+
+    --font-primary: 'Roboto Mono', monospace;
+    --font-size-base: 1.2rem;
+    --font-size-h2: 1.3rem;
+    --font-size-h3: 1.2rem;
+    --font-size-small: 0.9rem;
+    --font-size-paragraph: 1rem;
+
+    --panel-gap: 0.6rem;
+    --panel-padding: 1.5rem;
+    --border-width-default: 3px;
+    --transition-speed: 0.2s ease;
+}
+
+/* --- Base Styles --- */
+body {
+    /* Ensure body uses default text color and font */
+    color: var(--color-light-text);
+    font-family: var(--font-primary);
+    margin: 0; /* Remove default body margin */
+    padding: 0; /* Remove default body padding */
+}
+
+/* Dark Mode specific variables */
+body.dark-mode {
+    --color-panel-bg: var(--color-dark-bg);
+    --color-text: var(--color-dark-text);
+    --color-border: var(--color-dark-border);
+}
+
+/* Default light mode variables */
+body:not(.dark-mode) {
+    --color-panel-bg: var(--color-light-bg);
+    --color-text: var(--color-light-text);
+    --color-border: var(--color-light-border);
+}
+
+/* --- Reusable Panel Components --- */
+
+/* Panel Wrapper Base Styles (for borders and clip-paths) */
+.panel-1-wrapper,
+.panel-2-wrapper,
+.panel-3-wrapper,
+.panel-4-wrapper,
+.panel-5-wrapper {
+    background: var(--color-border); /* Uses the border color variable */
+    padding: var(--border-width-default); /* Uses default border thickness */
+    transition: transform var(--transition-speed);
+    box-sizing: border-box;
+    overflow: hidden; /* Ensures content respects clip-path */
+}
+
+/* Panel Inner Content Base Styles */
+.panel-1,
+.panel-2,
+.panel-3,
+.panel-4,
+.panel-5 {
+    background: var(--color-panel-bg); /* Uses the panel background color variable */
+    padding: var(--panel-padding);
+    color: var(--color-text); /* Uses the text color variable */
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    clip-path: inherit; /* Inherits clip-path from wrapper */
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Headings within panels */
+.panel-1 h2,
+.panel-2 h2,
+.panel-3 h2,
+.panel-4 h2,
+.panel-5 h2 {
+    font-size: var(--font-size-h2);
+    margin-top: 0; /* Reset default margin for consistency */
+}
+
+/* Paragraphs within panels */
+.panel-1 p,
+.panel-5 p {
+    font-size: var(--font-size-paragraph);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Icon Grid Base Styles (for Skills and Tools) */
+.skills-icon-grid,
+.tools-icon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0; /* Original gap was 0rem */
+    margin-top: 1rem;
+    justify-content: flex-start;
+}
+
+.skill-icon,
+.tools-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 6rem;
+    text-align: center;
+}
+
+.skill-icon img,
+.tools-icon img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    margin-bottom: 0.4rem;
+    /* Removed drop-shadow from here as it was not part of the main request
+       and might cause unintended effects on all icons. */
+}
+
+.skill-icon span,
+.tools-icon span {
+    font-size: var(--font-size-small);
+    font-weight: bold;
+    font-family: var(--font-primary);
+    color: var(--color-text); /* Uses text color variable */
+}
+
+/* --- Layout Structure --- */
+
+/* Intro Title */
+.intro-tittle {
+    padding-top: 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Main Panel Grid Layout */
+.panel-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--panel-gap);
+    justify-content: center;
+    align-items: stretch;
+    max-width: 100rem; /* Use max-width for fluid behavior */
+    margin: 2rem auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* Column Definitions */
+.left-column {
+    flex: 1;
+    min-width: 300px;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-column {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    height: 26.9rem; /* Consider making this more flexible or using flex-grow */
+}
+
+/* --- Individual Panel Styling & Clip Paths (Desktop/Larger Screens) --- */
+
+.panel-1-wrapper {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+    height: 100%;
+}
+
+.panel-2-wrapper {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+    height: 100%;
+    margin-bottom: -10px; /* Adjust for overlap with panel 3 */
+}
+
+.panel-3-wrapper {
+    clip-path: polygon(0 0, 100% 10%, 100% 79%, 0 100%);
+    height: 100%;
+}
+
+.panel-4-wrapper {
+    clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 90%);
+    height: 50rem; /* Fixed height, will be overridden on mobile */
+    margin: 2rem auto;
+    margin-top: -7rem; /* Overlap with previous section */
+    width: 98rem; /* Fixed width, will be overridden on mobile */
+}
+
+.panel-5-wrapper {
+    clip-path: polygon(0 0, 100% 31%, 100% 100%, 0 100%);
+    height: 16rem; /* Fixed height, will be overridden on mobile */
+    margin: 2rem auto;
+    margin-top: -6rem; /* Overlap with previous section */
+    width: 98rem; /* Fixed width, will be overridden on mobile */
+}
+
+/* --- Panel Specific Content Styling --- */
+
+/* Panel 1 (About Me) */
+.intro-content-1 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap; /* Allows content to wrap on smaller screens */
+}
+
+.intro-content-1 img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 8px;
+    margin-left: 1rem;
+    /* Removed unconditional drop-shadow from here */
+}
+
+/* Apply drop-shadow for white outline in dark mode (Desktop/Default) */
+body.dark-mode .intro-content-1 img, .skill-icon img,
+.tools-icon img  {
+    filter: drop-shadow(2px 0 0 white) /* Adjusted from 5px to 2px for a cleaner look */
+            drop-shadow(0 2px 0 white)
+            drop-shadow(-2px 0 0 white)
+            drop-shadow(0 -2px 0 white);
+    transition: filter var(--transition-speed); /* Add transition for smooth effect */
+}
+
+
+.panel-text-1 {
+    flex: 1;
+    min-width: 200px;
+    margin-left: -3rem; /* Adjust for image overlap */
+}
+
+.panel-text-1 h2 {
+    margin-top: -1rem; /* Specific adjustment for this heading */
+}
+
+/* Panel 4 (Projects) */
+.panel-4 {
+    padding-top: 7rem; /* Specific padding to drag content lower due to clip-path */
+}
+
+.panel-4 h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.project-card {
+    background-color: var(--color-panel-bg);
+    border: 2px solid var(--color-border);
+    padding: 1rem;
+    transition: transform var(--transition-speed);
+}
+
+.project-card h3 {
+    font-size: var(--font-size-h3);
+    margin-top: 0;
+}
+
+.project-card p {
+    font-size: var(--font-size-small);
+    line-height: 1.4;
+}
+
+.project-card a {
+    display: inline-block;
+    font-size: var(--font-size-small);
+    margin-top: 0.5rem;
+    color: var(--color-link);
+    text-decoration: underline;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Panel 5 (Contact Me) */
+.panel-5 h2,
+.panel-5 p {
+    margin-left: 0.2rem; /* Minor left alignment adjustment */
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 1.2rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    background: var(--color-light-bg); /* Always light background for contact items */
+    color: var(--color-light-text); /* Always dark text for contact items */
+    border: 1.5px solid var(--color-light-border); /* Always dark border */
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: transform var(--transition-speed), background var(--transition-speed);
+    font-size: var(--font-size-paragraph); /* Consistent font size */
+}
+
+.contact-item img {
+    width: 24px;
+    height: 24px;
+}
+
+.contact-item:hover {
+    transform: translateY(-3px);
+    background: #f3f3f3; /* Light hover background */
+}
+
+/* --- Hover Effect for Panels --- */
+.panel-1-wrapper:hover,
+.panel-2-wrapper:hover,
+.panel-3-wrapper:hover,
+.panel-4-wrapper:hover,
+.panel-5-wrapper:hover {
+    transform: translateY(-4px);
+}
+
+/* --- Responsive Layout (Mobile First Approach) --- */
+
+/* General adjustments for screens up to 768px wide */
+@media (max-width: 768px) {
+    .panel-row {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 0.5rem; /* Slightly less padding on very small screens */
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+        min-width: unset; /* Allow full flexibility */
+        height: auto; /* Allow height to adjust to content */
+    }
+
+    /* Make panels rectangular and responsive on mobile */
+    .panel-1-wrapper,
+    .panel-2-wrapper,
+    .panel-3-wrapper,
+    .panel-4-wrapper,
+    .panel-5-wrapper {
+        clip-path: none; /* Remove custom shapes, make them rectangular */
+        height: auto; /* Allow height to adapt to content */
+        max-width: 95%; /* Keep some side padding */
+        width: 100%; /* Take full available width */
+        margin-left: auto;
+        margin-right: auto;
+        padding: var(--border-width-default); /* Revert to default border on mobile */
+    }
+
+    /* Specific mobile adjustments for panel 4 & 5 */
+    .panel-4-wrapper,
+    .panel-5-wrapper {
+        margin-top: var(--panel-gap); /* Reduce negative margin for better stacking */
+        /* height: auto; is already set above */
+    }
+
+    .panel-4 {
+        padding-top: var(--panel-padding); /* Adjust padding for mobile view */
+    }
+
+    /* Adjust Panel 1 content for mobile */
+    .intro-content-1 {
+        flex-direction: column; /* Stack image and text vertically */
+        align-items: center;
+        text-align: center;
+    }
+
+    .intro-content-1 img {
+        margin-left: 0;
+        max-width: 150px; /* Smaller image on mobile */
+    }
+
+    /* Responsive drop-shadow for image in dark mode (Mobile) */
+    body.dark-mode 
+    .intro-content-1 img, 
+    .skill-icon img,
+    .tools-icon img {
+        filter: drop-shadow(1px 0 0 white) /* Reduced from 2px to 1px for mobile */
+                drop-shadow(0 1px 0 white)
+                drop-shadow(-1px 0 0 white)
+                drop-shadow(0 -1px 0 white);
+    }
+
+    .panel-text-1 {
+        margin-left: 0;
+        min-width: unset;
+    }
+
+    /* Center icon grids and contact links on mobile */
+    .skills-icon-grid,
+    .tools-icon-grid,
+    .contact-links {
+        justify-content: center;
+    }
+
+    /* Adjust project grid margins for mobile */
+    .projects-grid {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+
+    /* Ensure skill/tool icons are centered */
+    .skill-icon,
+    .tools-icon {
+        width: 5rem; /* Slightly smaller width for icons on mobile */
+    }
+}

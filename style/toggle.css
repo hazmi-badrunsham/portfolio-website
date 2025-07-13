@@ -23,36 +23,7 @@ body.dark-mode .toggle-btn {
   
 }
 
-body.dark-mode .nav-panel {
-  background-color: #1a1a1a;
-  color: #f0f0f0;
-  border: 3px solid #f0f0f0;
-  box-shadow: 4px 4px 0 #f0f0f0;
-}
 
-body.dark-mode .nav-panel:hover {
-  background-color: #f0f0f0;
-  color: #1a1a1a;
-}
-
-
-body.dark-mode .site-title,
-body.dark-mode .tagline {
-  color: #f0f0f0;
-}
-
-/* Dark mode */
-body.dark-mode .panel-1,
-body.dark-mode .panel-2,
-body.dark-mode .panel-3 {
-  background: #1a1a1a;
-  color: #f0f0f0;
-}
-body.dark-mode .panel-1-wrapper,
-body.dark-mode .panel-2-wrapper,
-body.dark-mode .panel-3-wrapper {
-  background: #f0f0f0;
-}
 @media (max-width: 480px) {
   .toggle-btn {
     font-size: 0.8rem;
