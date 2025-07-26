@@ -37,6 +37,7 @@ body {
     font-family: var(--font-primary);
     margin: 0; /* Remove default body margin */
     padding: 0; /* Remove default body padding */
+    transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 /* Dark Mode specific variables */
@@ -44,6 +45,7 @@ body.dark-mode {
     --color-panel-bg: var(--color-dark-bg);
     --color-text: var(--color-dark-text);
     --color-border: var(--color-dark-border);
+    background-color: var(--color-dark-bg);
 }
 
 /* Default light mode variables */
@@ -51,6 +53,7 @@ body:not(.dark-mode) {
     --color-panel-bg: var(--color-light-bg);
     --color-text: var(--color-light-text);
     --color-border: var(--color-light-border);
+    background-color: var(--color-light-bg);
 }
 
 /* --- Reusable Panel Components --- */
@@ -127,8 +130,6 @@ body:not(.dark-mode) {
     height: 55px;
     object-fit: contain;
     margin-bottom: 0.4rem;
-    /* Removed drop-shadow from here as it was not part of the main request
-       and might cause unintended effects on all icons. */
 }
 
 .skill-icon span,
@@ -148,16 +149,27 @@ body:not(.dark-mode) {
     font-weight: bold;
 }
 
-/* Main Panel Grid Layout */
+/* NEW: Main Portfolio Container for all panels */
+.main-portfolio-container {
+    display: flex;
+    flex-direction: column; /* Stack panels vertically */
+    align-items: center; /* Center panels horizontally */
+    gap: var(--panel-gap); /* Gap between major sections */
+    max-width: 100rem; /* Overall max width for the entire portfolio content */
+    margin: 2rem auto; /* Center the entire portfolio on the page */
+    padding: 0 1rem; /* Padding on the sides for smaller screens */
+    box-sizing: border-box;
+    width: 100%; /* Ensure it takes full width on smaller screens */
+}
+
+/* Main Panel Grid Layout (for the first row of panels) */
 .panel-row {
     display: flex;
     flex-wrap: wrap;
     gap: var(--panel-gap);
     justify-content: center;
     align-items: stretch;
-    max-width: 100rem; /* Use max-width for fluid behavior */
-    margin: 2rem auto;
-    padding: 0 1rem;
+    width: 100%; /* Take full width of its parent container */
     box-sizing: border-box;
 }
 
@@ -199,17 +211,15 @@ body:not(.dark-mode) {
 .panel-4-wrapper {
     clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 90%);
     height: 50rem; /* Fixed height, will be overridden on mobile */
-    margin: 2rem auto;
-    margin-top: -7rem; /* Overlap with previous section */
-    width: 98rem; /* Fixed width, will be overridden on mobile */
+    width: 100%; /* Ensure it takes full width of its parent */
+    margin-top: -5.7rem; /* Overlap with previous section */
 }
 
 .panel-5-wrapper {
     clip-path: polygon(0 0, 100% 31%, 100% 100%, 0 100%);
     height: 16rem; /* Fixed height, will be overridden on mobile */
-    margin: 2rem auto;
-    margin-top: -6rem; /* Overlap with previous section */
-    width: 98rem; /* Fixed width, will be overridden on mobile */
+    width: 100%; /* Ensure it takes full width of its parent */
+    margin-top: -4.7rem; /* Overlap with previous section */
 }
 
 /* --- Panel Specific Content Styling --- */
@@ -231,12 +241,11 @@ body:not(.dark-mode) {
     flex-shrink: 0;
     border-radius: 8px;
     margin-left: 1rem;
-    /* Removed unconditional drop-shadow from here */
 }
 
 /* Apply drop-shadow for white outline in dark mode (Desktop/Default) */
 body.dark-mode .intro-content-1 img, .skill-icon img,
-.tools-icon img  {
+.tools-icon img {
     filter: drop-shadow(2px 0 0 white) /* Adjusted from 5px to 2px for a cleaner look */
             drop-shadow(0 2px 0 white)
             drop-shadow(-2px 0 0 white)
@@ -248,7 +257,8 @@ body.dark-mode .intro-content-1 img, .skill-icon img,
 .panel-text-1 {
     flex: 1;
     min-width: 200px;
-    margin-left: -3rem; /* Adjust for image overlap */
+    margin-top: 1rem;
+    margin-left: 1rem; /* Adjust for image overlap */
 }
 
 .panel-text-1 h2 {
@@ -402,12 +412,17 @@ body.dark-mode .intro-content-1 img, .skill-icon img,
 
     .intro-content-1 img {
         margin-left: 0;
-        max-width: 150px; /* Smaller image on mobile */
+        margin-top: -2rem;
+        max-width: 150px;
+        filter: drop-shadow(0.2px 0 0 rgb(0, 0, 0)) /* Reduced from 2px to 1px for mobile */
+                drop-shadow(0 0.2px 0 rgb(0, 0, 0))
+                drop-shadow(-0.2px 0 0 rgb(0, 0, 0))
+                drop-shadow(0 -0.2px 0 rgb(0, 0, 0)); /* Smaller image on mobile */
     }
 
     /* Responsive drop-shadow for image in dark mode (Mobile) */
-    body.dark-mode 
-    .intro-content-1 img, 
+    body.dark-mode
+    .intro-content-1 img,
     .skill-icon img,
     .tools-icon img {
         filter: drop-shadow(1px 0 0 white) /* Reduced from 2px to 1px for mobile */
@@ -418,9 +433,10 @@ body.dark-mode .intro-content-1 img, .skill-icon img,
 
     .panel-text-1 {
         margin-left: 0;
+        margin-top: 0.5rem;
         min-width: unset;
     }
-
+    
     /* Center icon grids and contact links on mobile */
     .skills-icon-grid,
     .tools-icon-grid,
