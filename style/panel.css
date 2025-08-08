@@ -104,41 +104,83 @@ body:not(.dark-mode) {
     line-height: 1.5;
     margin: 0;
 }
+/*panel 2 content */
 
-/* Icon Grid Base Styles (for Skills and Tools) */
-.skills-icon-grid,
-.tools-icon-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0; /* Original gap was 0rem */
-    margin-top: 1rem;
-    justify-content: flex-start;
+
+/* Slider styles */
+.slider {
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  height: 110px;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
-.skill-icon,
-.tools-icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 6rem;
-    text-align: center;
+.slide-track {
+  display: flex;
+    animation: scrolling 10s linear infinite;
 }
 
-.skill-icon img,
-.tools-icon img {
-    width: 55px;
-    height: 55px;
-    object-fit: contain;
-    margin-bottom: 0.4rem;
+.slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 250px; /* ← Fix the width */
+  padding: 0 30px; /* Remove extra spacing */
+  text-align: center;
+  box-sizing: border-box;
 }
 
-.skill-icon span,
-.tools-icon span {
-    font-size: var(--font-size-small);
-    font-weight: bold;
-    font-family: var(--font-primary);
-    color: var(--color-text); /* Uses text color variable */
+.slide img {
+  height: 70%;
+  width: auto;
+  object-fit: contain;
 }
+
+.slide span {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 3px;
+  color: #333;
+}
+
+/* Seamless scroll */
+  @keyframes scrolling {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+/* Fade effect on edges */
+.slider::before,
+.slider::after {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.slider::before {
+  left: 0;
+  top: 0;
+  background: linear-gradient(to right, #fff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.slider::after {
+  right: 0;
+  top: 0;
+  background: linear-gradient(to left, #fff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
 
 /* --- Layout Structure --- */
 
@@ -266,6 +308,71 @@ body.dark-mode .intro-content-1 img, .skill-icon img,
 }
 
 /* Panel 4 (Projects) */
+.accordion-horizontal {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: row;
+    justify-content: center;
+    overflow-x: auto;
+    height: auto; /* ← remove fixed height */
+    margin-left: 7rem;
+    margin-right: 7rem;
+}
+.accordion-item {
+    flex: 0 0 60px;
+    background: #ececec;
+    border: 2px solid #000000;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.accordion-item:hover {
+    background: #ffffff; /* or #e6e6e6 for more contrast */
+}
+
+.accordion-item h3 {
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    writing-mode: vertical-rl;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.3s ease;
+    
+}
+.accordion-item p,a {
+   margin-left: 1rem;
+    
+}
+
+
+.accordion-item .accordion-content {
+    display: none;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #333;
+    text-align: left;
+}
+
+.accordion-item.expanded {
+    flex: 1;
+    align-items: flex-start;
+}
+
+.accordion-item.expanded h3 {
+    writing-mode: horizontal-tb;
+    margin-bottom: 0rem;
+}
+
+.accordion-item.expanded .accordion-content {
+    display: block;
+}
+
+
 .panel-4 {
     padding-top: 7rem; /* Specific padding to drag content lower due to clip-path */
 }
@@ -417,8 +524,9 @@ body.dark-mode .intro-content-1 img, .skill-icon img,
         filter: drop-shadow(0.2px 0 0 rgb(0, 0, 0)) /* Reduced from 2px to 1px for mobile */
                 drop-shadow(0 0.2px 0 rgb(0, 0, 0))
                 drop-shadow(-0.2px 0 0 rgb(0, 0, 0))
-                drop-shadow(0 -0.2px 0 rgb(0, 0, 0)); /* Smaller image on mobile */
+                drop-shadow(0 -0.5px 0 rgb(0, 0, 0)); /* Smaller image on mobile */
     }
+    
 
     /* Responsive drop-shadow for image in dark mode (Mobile) */
     body.dark-mode
@@ -455,4 +563,26 @@ body.dark-mode .intro-content-1 img, .skill-icon img,
     .tools-icon {
         width: 5rem; /* Slightly smaller width for icons on mobile */
     }
+
+
+      .accordion-horizontal {
+        flex-direction: column;
+        overflow-y: auto;   /* enable vertical scroll if needed */
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .accordion-item {
+        flex: auto;
+        width: auto; /* Take full width */
+        height: 30px;
+    }
+
+    .accordion-item h3 {
+        writing-mode: horizontal-tb !important;
+        transform: none !important;
+        justify-content: center;
+        text-align: center;
+    }
+   
 }

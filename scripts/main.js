@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // before applying theme or setting up event listeners.
     await loadHtmlFragment('panel', '/components/panel.html');
     await loadHtmlFragment('footer', '/components/footer.html');
-    await loadHtmlFragment('chapter-nav', 'components/nav.html');
+    
 
     // --- Theme Toggle (Dark Mode) Logic ---
     const themeToggleBtn = document.getElementById('themeToggle');
@@ -53,4 +53,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         console.warn("Warning: Theme toggle button with ID 'themeToggle' not found. Dark mode toggle will not function.");
     }
+
+        document.querySelectorAll('.accordion-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const alreadyExpanded = item.classList.contains('expanded');
+            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('expanded'));
+            if (!alreadyExpanded) {
+                item.classList.add('expanded');
+            }
+        });
+    });
+
+            
+
 });
+  

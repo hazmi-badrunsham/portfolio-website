@@ -12,10 +12,13 @@
   color: var(--text);
   font-family: 'Anton', sans-serif;
   margin: 0;
+  padding-left: 1rem;
 }
 
 .tagline {
   font-size: 1rem;
+    padding-left: 1rem;
+
   color: var(--text);
   margin-top: -0.1rem;
 }
