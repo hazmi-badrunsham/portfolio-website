@@ -240,7 +240,7 @@ body.dark-mode .intro-content-1 img, .skill-icon img,
     flex: 1;
     min-width: 200px;
     margin-top: 1rem;
-    margin-left: 1rem; /* Adjust for image overlap */
+    margin-left: -3rem; /* Adjust for image overlap */
 }
 
 .panel-text-1 h2 {
