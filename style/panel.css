@@ -1,529 +1,368 @@
-/*
- * Panel Styles - Manga Theme Portfolio
- *
- * This stylesheet defines the layout, styling, and responsiveness
- * for the various panels in the portfolio website.
- */
+/* ============================================================
+   MANGA THEME — panel.css  (creative + scalable)
+   Black ink · white paper · halftone · one red accent
+   ============================================================ */
 
-/* --- CSS Variables (Custom Properties) --- */
-/* Define reusable values for colors, spacing, and fonts */
-
-
-/* --- Base Styles --- */
-body {
-    /* Ensure body uses default text color and font */
-    color: var(--color-light-text);
-    font-family: var(--font-primary);
-    margin: 0; /* Remove default body margin */
-    padding: 0; /* Remove default body padding */
-    transition: background-color var(--transition-speed), color var(--transition-speed);
+:root {
+  --ink: #141414;
+  --paper: #fafaf7;
+  --paper-2: #ffffff;
+  --line: #141414;
+  --muted: #5f5f5f;
+  --accent: #e63329;               /* shonen red */
+  --shadow-hard: 5px 5px 0 var(--ink);
+  --shadow-hard-lg: 8px 8px 0 var(--ink);
+  --font-display: "Bangers", "Anton", Impact, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --dot: rgba(20, 20, 20, 0.12);
 }
 
-/* Dark Mode specific variables */
-body.dark-mode {
-    --color-panel-bg: var(--color-dark-bg);
-    --color-text: var(--color-dark-text);
-    --color-border: var(--color-dark-border);
-    background-color: var(--color-dark-bg);
+/* Dark mode: invert to inked-black page (toggle adds .dark on <body> or container) */
+body.dark .main-portfolio-container,
+.main-portfolio-container.dark {
+  --ink: #f2f2f2;
+  --paper: #101010;
+  --paper-2: #171717;
+  --line: #f2f2f2;
+  --muted: #a5a5a5;
+  --dot: rgba(255, 255, 255, 0.12);
 }
 
-/* Default light mode variables */
-body:not(.dark-mode) {
-    --color-panel-bg: var(--color-light-bg);
-    --color-text: var(--color-light-text);
-    --color-border: var(--color-light-border);
-    background-color: var(--color-light-bg);
+/* ---------- Page ---------- */
+.main-portfolio-container {
+  position: relative;
+  background-color: var(--paper);
+  background-image: radial-gradient(var(--dot) 1.4px, transparent 1.5px);
+  background-size: 11px 11px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  overflow: hidden;
 }
 
-/* --- Reusable Panel Components --- */
-
-/* Panel Wrapper Base Styles (for borders and clip-paths) */
-.panel-1-wrapper,
-.panel-2-wrapper,
-.panel-3-wrapper,
-.panel-4-wrapper,
-.panel-5-wrapper {
-    background: var(--color-border); /* Uses the border color variable */
-    padding: var(--border-width-default); /* Uses default border thickness */
-    transition: transform var(--transition-speed);
-    box-sizing: border-box;
-    overflow: hidden; /* Ensures content respects clip-path */
+/* Faint diagonal speed lines behind everything */
+.mp-speedlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  background: repeating-linear-gradient(
+    -50deg,
+    var(--ink) 0 2px,
+    transparent 2px 16px
+  );
+  -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 70%);
+          mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 70%);
+}
+.main-portfolio-container > * {
+  position: relative;
+  z-index: 1;
 }
 
-/* Panel Inner Content Base Styles */
-.panel-1,
-.panel-2,
-.panel-3,
-.panel-4,
-.panel-5 {
-    background: var(--color-panel-bg); /* Uses the panel background color variable */
-    padding: var(--panel-padding);
-    color: var(--color-text); /* Uses the text color variable */
-    font-family: var(--font-primary);
-    font-size: var(--font-size-base);
-    clip-path: inherit; /* Inherits clip-path from wrapper */
-    height: 100%;
-    box-sizing: border-box;
+/* ---------- Shared comic panel ---------- */
+.panel {
+  background: var(--paper-2);
+  border: 3px solid var(--line);
+  border-radius: 3px;
+  padding: clamp(1.1rem, 2.5vw, 1.75rem);
+  box-shadow: var(--shadow-hard);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.panel:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hard-lg);
 }
 
-/* Headings within panels */
-.panel-1 h2,
-.panel-2 h2,
-.panel-3 h2,
-.panel-4 h2,
-.panel-5 h2 {
-    font-size: var(--font-size-h2);
-    margin-top: 0; /* Reset default margin for consistency */
+/* manga page number badge in the corner of each panel */
+.panel[data-panel-no]::before {
+  content: "#" attr(data-panel-no);
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: var(--paper-2);
+  background: var(--ink);
+  padding: 0.15rem 0.55rem;
+  border: 3px solid var(--line);
+  border-top-right-radius: 3px;
+}
+.panel { position: relative; }
+
+/* ---------- Headings (title-card style) ---------- */
+.main-portfolio-container h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 0 0 1.25rem;
+  padding: 0.2rem 0.8rem;
+  display: inline-block;
+  color: var(--paper-2);
+  background: var(--accent);
+  transform: rotate(-1.5deg);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.main-portfolio-container h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  font-size: 1.15rem;
+  margin: 0;
+  color: var(--ink);
+}
+.main-portfolio-container p {
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
 }
 
-/* Paragraphs within panels */
-.panel-1 p,
-.panel-5 p {
-    font-size: var(--font-size-paragraph);
-    line-height: 1.5;
-    margin: 0;
+/* ---------- Layout ---------- */
+.panel-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.25rem, 3vw, 2rem);
 }
-/*panel 2 content */
-.skills-grid,
-.tools-grid {
+@media (min-width: 900px) {
+  .panel-row { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+.left-column,
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+.panel-1 { height: 100%; }
+
+/* ---------- Panel 1: About ---------- */
+.intro-content-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+@media (min-width: 520px) {
+  .intro-content-1 { flex-direction: row; text-align: left; }
+}
+.intro-content-1 img {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border: 3px solid var(--line);
+  border-radius: 50%;
+  box-shadow: 4px 4px 0 var(--accent);
+  filter: grayscale(1) contrast(1.1);
+  transition: filter 0.3s ease;
+}
+.intro-content-1 img:hover { filter: grayscale(0) contrast(1); }
+
+/* ---------- Skills / Tools (auto-scaling grid) ---------- */
+.logo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+  gap: 0.85rem;
+}
+.logo-chip {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: 0.6rem;
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 6px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.logo-chip img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.9;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+.logo-chip:hover {
+  transform: translateY(-4px) rotate(-4deg);
+  background: var(--accent);
+}
+.logo-chip:hover img { filter: grayscale(1) brightness(4); opacity: 1; }
+
+/* ---------- Experience timeline (scalable) ---------- */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-left: 1.75rem;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  background: var(--line);
+}
+.timeline-item { position: relative; }
+.timeline-dot {
+  position: absolute;
+  left: -1.75rem;
+  top: 4px;
+  width: 15px;
+  height: 15px;
+  background: var(--accent);
+  border: 3px solid var(--line);
+  border-radius: 50%;
+}
+.timeline-body {
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 1rem 1.1rem;
+}
+.timeline-head {
   display: flex;
   flex-wrap: wrap;
-  justify-content: left;
-  gap: 2rem;
-  margin: 1.5rem auto;
-  padding: 0.5rem;
-  max-width: 960px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.timeline-date {
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-size: 1rem;
+}
+.timeline-org {
+  font-weight: 600;
+  color: var(--ink) !important;
+  margin: 0 0 0.5rem;
+}
+.timeline-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+.timeline-tags li {
+  font-size: 0.78rem;
+  padding: 0.15rem 0.55rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
 }
 
-.skills-grid img,
-.tools-grid img {
-  height: 55px;
-  filter: grayscale(100%) opacity(0.8);
-  transition: all 0.3s ease;
-  border-radius: 4px;
-}
-
-/* Optional: Slight lift & color on hover */
-.skills-grid img:hover,
-.tools-grid img:hover {
-  filter: grayscale(0%) opacity(1);
-  transform: translateY(-3px);
-}
-
-/* Dark mode adjustment (if needed) */
-body.dark-mode .skills-grid img,
-body.dark-mode .tools-grid img {
-  filter: grayscale(100%) opacity(0.9);
-}
-body.dark-mode .skills-grid img:hover,
-body.dark-mode .tools-grid img:hover {
-  filter: grayscale(0%) opacity(1);
-}
-
-
-
-/* --- Layout Structure --- */
-
-/* Intro Title */
-.intro-tittle {
-    padding-top: 0;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* NEW: Main Portfolio Container for all panels */
-.main-portfolio-container {
-    display: flex;
-    flex-direction: column; /* Stack panels vertically */
-    align-items: center; /* Center panels horizontally */
-    gap: var(--panel-gap); /* Gap between major sections */
-    max-width: 100rem; /* Overall max width for the entire portfolio content */
-    margin: 2rem auto; /* Center the entire portfolio on the page */
-    padding: 0 1rem; /* Padding on the sides for smaller screens */
-    box-sizing: border-box;
-    width: 100%; /* Ensure it takes full width on smaller screens */
-}
-
-/* Main Panel Grid Layout (for the first row of panels) */
-.panel-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--panel-gap);
-    justify-content: center;
-    align-items: stretch;
-    width: 100%; /* Take full width of its parent container */
-    box-sizing: border-box;
-}
-
-/* Column Definitions */
-.left-column {
-    flex: 1;
-    min-width: 300px;
-    height: 30rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.right-column {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    height: 26.9rem; /* Consider making this more flexible or using flex-grow */
-}
-
-/* --- Individual Panel Styling & Clip Paths (Desktop/Larger Screens) --- */
-
-.panel-1-wrapper {
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
-    height: 100%;
-}
-
-.panel-2-wrapper {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
-    height: 100%;
-    margin-bottom: -10px; /* Adjust for overlap with panel 3 */
-}
-
-.panel-3-wrapper {
-    clip-path: polygon(0 0, 100% 10%, 100% 79%, 0 100%);
-    height: 100%;
-}
-
-.panel-4-wrapper {
-    clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 90%);
-    height: 50rem; /* Fixed height, will be overridden on mobile */
-    width: 100%; /* Ensure it takes full width of its parent */
-    margin-top: -5.7rem; /* Overlap with previous section */
-}
-
-.panel-5-wrapper {
-    clip-path: polygon(0 0, 100% 31%, 100% 100%, 0 100%);
-    height: 16rem; /* Fixed height, will be overridden on mobile */
-    width: 100%; /* Ensure it takes full width of its parent */
-    margin-top: -4.7rem; /* Overlap with previous section */
-}
-
-/* --- Panel Specific Content Styling --- */
-
-/* Panel 1 (About Me) */
-.intro-content-1 {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-top: 1rem;
-    flex-wrap: wrap; /* Allows content to wrap on smaller screens */
-}
-
-.intro-content-1 img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    flex-shrink: 0;
-    border-radius: 8px;
-    margin-left: 1rem;
-}
-
-/* Apply drop-shadow for white outline in dark mode (Desktop/Default) */
-body.dark-mode .intro-content-1 img, .skill-icon img,
-.tools-icon img {
-    filter: drop-shadow(2px 0 0 white) /* Adjusted from 5px to 2px for a cleaner look */
-            drop-shadow(0 2px 0 white)
-            drop-shadow(-2px 0 0 white)
-            drop-shadow(0 -2px 0 white);
-    transition: filter var(--transition-speed); /* Add transition for smooth effect */
-}
-
-
-.panel-text-1 {
-    flex: 1;
-    min-width: 200px;
-    margin-top: 1rem;
-    margin-left: -3rem; /* Adjust for image overlap */
-}
-
-.panel-text-1 h2 {
-    margin-top: -1rem; /* Specific adjustment for this heading */
-}
-
-/* Panel 4 (Projects) */
+/* ---------- Projects accordion ---------- */
 .accordion-horizontal {
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: row;
-    justify-content: center;
-    overflow-x: auto;
-    height: auto; /* ← remove fixed height */
-    margin-left: 7rem;
-    margin-right: 7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+@media (min-width: 820px) {
+  .accordion-horizontal { flex-direction: row; align-items: stretch; }
 }
 .accordion-item {
-    flex: 0 0 60px;
-    background: #ececec;
-    border: 2px solid #000000;
-    padding: 1rem 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+  flex: 1;
+  min-width: 0;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 1rem;
+  background: var(--paper);
+  cursor: pointer;
+  overflow: hidden;
+  transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease;
 }
-.accordion-item:hover {
-    background: #ffffff; /* or #e6e6e6 for more contrast */
+.accordion-item:hover { background: var(--paper-2); }
+.accordion-item.active {
+  flex: 3.5;
+  background: var(--paper-2);
+  border-color: var(--accent);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(230, 51, 41, 0.07) 0 2px,
+    transparent 2px 10px
+  );
 }
+.accordion-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.accordion-item h3 {
-    font-size: 0.9rem;
-    margin-left: 1rem;
-    writing-mode: vertical-rl;
-    white-space: nowrap;
-    text-align: center;
-    transition: all 0.3s ease;
-    
+/* smooth expand: grid 0fr -> 1fr (no fixed max-height) */
+.accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.accordion-item p,a {
-   margin-left: 1rem;
-    
+.accordion-content > .accordion-inner { min-height: 0; overflow: hidden; }
+.accordion-item.active .accordion-content {
+  grid-template-rows: 1fr;
+  margin-top: 0.75rem;
 }
-
-
-.accordion-item .accordion-content {
-    display: none;
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    color: #333;
-    text-align: left;
+.accordion-content a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.5px;
+  color: var(--paper-2);
+  background: var(--ink);
+  padding: 0.4rem 0.9rem;
+  border: 2px solid var(--line);
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.2s ease;
 }
+.accordion-content a:hover { background: var(--accent); }
 
-.accordion-item.expanded {
-    flex: 1;
-    align-items: flex-start;
-}
-
-.accordion-item.expanded h3 {
-    writing-mode: horizontal-tb;
-    margin-bottom: 0rem;
-}
-
-.accordion-item.expanded .accordion-content {
-    display: block;
-}
-
-
-.panel-4 {
-    padding-top: 7rem; /* Specific padding to drag content lower due to clip-path */
-}
-
-.panel-4 h2 {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.2rem;
-    margin-top: 1.5rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
-}
-
-.project-card {
-    background-color: var(--color-panel-bg);
-    border: 2px solid var(--color-border);
-    padding: 1rem;
-    transition: transform var(--transition-speed);
-}
-
-.project-card h3 {
-    font-size: var(--font-size-h3);
-    margin-top: 0;
-}
-
-.project-card p {
-    font-size: var(--font-size-small);
-    line-height: 1.4;
-}
-
-.project-card a {
-    display: inline-block;
-    font-size: var(--font-size-small);
-    margin-top: 0.5rem;
-    color: var(--color-link);
-    text-decoration: underline;
-}
-
-.project-card:hover {
-    transform: translateY(-5px);
-}
-
-/* Panel 5 (Contact Me) */
-.panel-5 h2,
-.panel-5 p {
-    margin-top: 1rem;
-    margin-left: 0.2rem; /* Minor left alignment adjustment */
-}
-
+/* ---------- Contact ---------- */
+.panel-5 { text-align: center; }
 .contact-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.2rem;
-    margin-top: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 1rem;
 }
-
 .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    background: var(--color-light-bg); /* Always light background for contact items */
-    color: var(--color-light-text); /* Always dark text for contact items */
-    border: 1.5px solid var(--color-light-border); /* Always dark border */
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: transform var(--transition-speed), background var(--transition-speed);
-    font-size: var(--font-size-paragraph); /* Consistent font size */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.15s ease;
 }
-
-.contact-item img {
-    width: 24px;
-    height: 24px;
-}
-
+.contact-item img { width: 22px; height: 22px; border-radius: 3px; }
 .contact-item:hover {
-    transform: translateY(-3px);
-    background: #f3f3f3; /* Light hover background */
+  transform: translate(-2px, -2px);
+  background: var(--accent);
+  color: var(--paper-2);
+  box-shadow: 5px 5px 0 var(--ink);
 }
 
-/* --- Hover Effect for Panels --- */
-.panel-1-wrapper:hover,
-.panel-2-wrapper:hover,
-.panel-3-wrapper:hover,
-.panel-4-wrapper:hover,
-.panel-5-wrapper:hover {
-    transform: translateY(-4px);
+/* ---------- Scroll reveal ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
+[data-reveal].is-visible { opacity: 1; transform: none; }
 
-/* --- Responsive Layout (Mobile First Approach) --- */
-
-/* General adjustments for screens up to 768px wide */
-@media (max-width: 768px) {
-    .panel-row {
-        flex-direction: column;
-        align-items: center;
-        padding: 0 0.5rem; /* Slightly less padding on very small screens */
-    }
-
-    .left-column,
-    .right-column {
-        width: 100%;
-        min-width: unset; /* Allow full flexibility */
-        height: auto; /* Allow height to adjust to content */
-    }
-
-    /* Make panels rectangular and responsive on mobile */
-    .panel-1-wrapper,
-    .panel-2-wrapper,
-    .panel-3-wrapper,
-    .panel-4-wrapper,
-    .panel-5-wrapper {
-        clip-path: none; /* Remove custom shapes, make them rectangular */
-        height: auto; /* Allow height to adapt to content */
-        max-width: 95%; /* Keep some side padding */
-        width: 100%; /* Take full available width */
-        margin-left: auto;
-        margin-right: auto;
-        padding: var(--border-width-default); /* Revert to default border on mobile */
-    }
-
-    /* Specific mobile adjustments for panel 4 & 5 */
-    .panel-4-wrapper,
-    .panel-5-wrapper {
-        margin-top: var(--panel-gap); /* Reduce negative margin for better stacking */
-        /* height: auto; is already set above */
-    }
-
-    .panel-4 {
-        padding-top: var(--panel-padding); /* Adjust padding for mobile view */
-    }
-
-    /* Adjust Panel 1 content for mobile */
-    .intro-content-1 {
-        flex-direction: column; /* Stack image and text vertically */
-        align-items: center;
-        text-align: center;
-    }
-
-    .intro-content-1 img {
-        margin-left: 0;
-        margin-top: -2rem;
-        max-width: 150px;
-        filter: drop-shadow(0.2px 0 0 rgb(0, 0, 0)) /* Reduced from 2px to 1px for mobile */
-                drop-shadow(0 0.2px 0 rgb(0, 0, 0))
-                drop-shadow(-0.2px 0 0 rgb(0, 0, 0))
-                drop-shadow(0 -0.5px 0 rgb(0, 0, 0)); /* Smaller image on mobile */
-    }
-    
-
-    /* Responsive drop-shadow for image in dark mode (Mobile) */
-    body.dark-mode
-    .intro-content-1 img,
-    .skill-icon img,
-    .tools-icon img {
-        filter: drop-shadow(1px 0 0 white) /* Reduced from 2px to 1px for mobile */
-                drop-shadow(0 1px 0 white)
-                drop-shadow(-1px 0 0 white)
-                drop-shadow(0 -1px 0 white);
-    }
-
-    .panel-text-1 {
-        margin-left: 0;
-        margin-top: 0.5rem;
-        min-width: unset;
-    }
-    
-    /* Center icon grids and contact links on mobile */
-    .skills-icon-grid,
-    .tools-icon-grid,
-    .contact-links {
-        justify-content: center;
-    }
-
-    /* Adjust project grid margins for mobile */
-    .projects-grid {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-    }
-
-    /* Ensure skill/tool icons are centered */
-    .skill-icon,
-    .tools-icon {
-        width: 5rem; /* Slightly smaller width for icons on mobile */
-    }
-
-
-      .accordion-horizontal {
-        flex-direction: column;
-        overflow-y: auto;   /* enable vertical scroll if needed */
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    .accordion-item {
-        flex: auto;
-        width: auto; /* Take full width */
-        height: 30px;
-    }
-
-    .accordion-item h3 {
-        writing-mode: horizontal-tb !important;
-        transform: none !important;
-        justify-content: center;
-        text-align: center;
-    }
-   
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .panel, .accordion-item, .logo-chip, .contact-item { transition: none; }
 }

@@ -49,16 +49,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- Accordion Logic ---
-    document.querySelectorAll('.accordion-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const alreadyExpanded = item.classList.contains('expanded');
-            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('expanded'));
-            if (!alreadyExpanded) {
-                item.classList.add('expanded');
-            }
-        });
+    // --- Projects accordion (single-open, uses .active) ---
+const accordion = document.getElementById("projectAccordion");
+if (accordion) {
+  accordion.querySelectorAll(".accordion-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      const isOpen = item.classList.contains("active");
+      accordion.querySelectorAll(".accordion-item").forEach((i) => i.classList.remove("active"));
+      if (!isOpen) item.classList.add("active");
     });
+  });
+}
+
+// --- Scroll reveal for any [data-reveal] element (scales to new panels) ---
+const revealEls = document.querySelectorAll("[data-reveal]");
+if ("IntersectionObserver" in window && revealEls.length) {
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+  revealEls.forEach((el) => io.observe(el));
+} else {
+  revealEls.forEach((el) => el.classList.add("is-visible"));
+}
+
+// --- Optional: dark mode toggle (wire a button with id="themeToggle") ---
+const themeToggle = document.getElementById("themeToggle");
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => document.body.classList.toggle("dark"));
+}
 
    
 
 });
+
