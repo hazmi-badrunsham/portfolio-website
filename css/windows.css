@@ -1,0 +1,447 @@
+/* ============================================================
+   windows.css — window frames, title bars, and section content
+   ============================================================ */
+
+/* ---------- Window frame ---------- */
+
+.window {
+  overflow: hidden;
+  background: var(--body-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px var(--shadow), 0 2px 6px var(--shadow);
+  scroll-margin-bottom: calc(var(--taskbar-h) + 16px);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+  animation: window-in 0.26s ease-out backwards;
+}
+
+/* Subtle stagger on first load */
+.window:nth-of-type(1) { animation-delay: 0.03s; }
+.window:nth-of-type(2) { animation-delay: 0.07s; }
+.window:nth-of-type(3) { animation-delay: 0.11s; }
+.window:nth-of-type(4) { animation-delay: 0.15s; }
+.window:nth-of-type(5) { animation-delay: 0.19s; }
+.window:nth-of-type(6) { animation-delay: 0.23s; }
+
+@keyframes window-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.window:hover,
+.window.active {
+  box-shadow: 0 16px 40px var(--shadow-strong), 0 3px 8px var(--shadow);
+  transform: translateY(-2px);
+}
+
+.window.minimized .window-body {
+  display: none;
+}
+
+.window.closed {
+  display: none;
+}
+
+/* ---------- Title bar ---------- */
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 36px;
+  padding: 0 6px 0 12px;
+  user-select: none;
+  color: var(--titlebar-text);
+  background: linear-gradient(180deg, var(--titlebar-to), var(--titlebar-from));
+}
+
+.window-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.title-icon {
+  display: inline-flex;
+  flex: none;
+  opacity: 0.95;
+}
+
+.window-controls {
+  display: flex;
+  flex: none;
+  gap: 4px;
+}
+
+.win-btn {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 24px;
+  color: inherit;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: background-color 0.1s ease;
+}
+
+.win-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.win-btn:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.win-btn[data-action="close"]:hover {
+  background: #d8402a;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.window-body {
+  padding: clamp(20px, 4vw, 30px);
+}
+
+/* ---------- Hero (About window) ---------- */
+
+.hero-name {
+  margin: 0 0 4px;
+  font-size: clamp(26px, 5vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.hero-role {
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.hero-tagline {
+  margin: 0 0 16px;
+  padding: 2px 0 2px 14px;
+  font-size: 15px;
+  color: var(--text-muted);
+  border-left: 3px solid var(--accent);
+}
+
+.hero-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 20px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.about-text p {
+  margin: 0 0 10px;
+  font-size: 14.5px;
+}
+
+.about-text p:last-child {
+  margin-bottom: 0;
+}
+
+.hero-divider {
+  margin: 22px 0;
+  border: 0;
+  border-top: 1px dashed var(--border);
+}
+
+/* ---------- Experience ---------- */
+
+.job-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.job-role {
+  margin: 0;
+  font-size: 16px;
+}
+
+.job-type {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.badge-current {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: 2px;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+[data-theme="dark"] .badge-current {
+  color: #0c1016;
+}
+
+.job-company {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.job-period {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  white-space: nowrap;
+  color: var(--text-muted);
+}
+
+.job-points {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+.job-points li {
+  margin: 5px 0;
+}
+
+.job-points li::marker {
+  color: var(--accent);
+}
+
+.job + .job {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px dashed var(--border);
+}
+
+/* ---------- Projects (mini windows) ---------- */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  gap: 16px;
+}
+
+.project {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--body-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.project:hover {
+  box-shadow: 0 10px 24px var(--shadow-strong);
+  transform: translateY(-3px);
+}
+
+.project-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 30px;
+  padding: 0 8px 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--titlebar-text);
+  background: linear-gradient(180deg, var(--titlebar-to), var(--titlebar-from));
+}
+
+.project-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.project-dots i {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.project-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 14px 16px 16px;
+}
+
+.project-desc {
+  flex: 1;
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.project-links {
+  display: flex;
+  gap: 14px;
+  margin: 12px 0 0;
+}
+
+/* ---------- Freelance ---------- */
+
+.freelance-intro {
+  margin: 0 0 14px;
+  font-size: 14.5px;
+}
+
+.dash-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 6px 16px;
+  margin: 0 0 18px;
+  padding: 0;
+  font-size: 14px;
+  list-style: none;
+}
+
+.dash-list li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.dash-list li::before {
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--accent);
+  content: "–";
+}
+
+.cta-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  border-radius: 8px;
+}
+
+.cta-title {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* ---------- Skills & education ---------- */
+
+.skill-group + .skill-group {
+  margin-top: 16px;
+}
+
+.skill-group h3,
+.education-title {
+  margin: 0 0 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.education {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--border);
+}
+
+.edu-inst {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.edu-degree {
+  margin: 2px 0 10px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+/* ---------- Contact ---------- */
+
+.contact-heading {
+  margin: 0 0 4px;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.contact-sub {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.contact-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 10px 2px;
+  font-size: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.contact-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.contact-list a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-list a:hover {
+  text-decoration: underline;
+}

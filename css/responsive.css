@@ -1,0 +1,113 @@
+/* ============================================================
+   responsive.css — tablet & mobile adaptations
+   Windows become full-width cards; the taskbar adapts.
+   ============================================================ */
+
+@media (max-width: 720px) {
+  :root {
+    --taskbar-h: 56px;
+  }
+
+  body {
+    font-size: 14.5px;
+  }
+
+  .desktop {
+    gap: 22px;
+    max-width: 100%;
+    padding: 20px 12px 28px;
+  }
+
+  /* Windows become plain full-width cards */
+  .window {
+    border-radius: 10px;
+  }
+
+  .window:hover,
+  .window.active {
+    box-shadow: 0 10px 28px var(--shadow), 0 2px 6px var(--shadow);
+    transform: none;
+  }
+
+  .titlebar {
+    height: 40px;
+  }
+
+  .window-title {
+    font-size: 13px;
+  }
+
+  .win-btn {
+    width: 42px;
+    height: 28px;
+  }
+
+  .window-body {
+    padding: 20px 16px;
+  }
+
+  /* Hero buttons fill the row nicely on small screens */
+  .hero-links .btn {
+    flex: 1 1 auto;
+  }
+
+  /* Taskbar: same idea, roomier touch targets */
+  .taskbar {
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .start-btn {
+    height: 40px;
+    padding: 0 12px 0 10px;
+  }
+
+  .task-link {
+    height: 40px;
+    padding: 0 10px;
+    font-size: 12.5px;
+  }
+
+  .tray-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Start menu becomes a full-width sheet above the taskbar */
+  .start-menu {
+    right: 8px;
+    bottom: calc(var(--taskbar-h) + 8px);
+    left: 8px;
+    width: auto;
+  }
+
+  .dash-list {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-box {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .start-label {
+    display: none;
+  }
+
+  .start-btn {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .clock {
+    display: none;
+  }
+
+  .task-link {
+    padding: 0 8px;
+  }
+}

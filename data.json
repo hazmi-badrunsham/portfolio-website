@@ -1,0 +1,114 @@
+{
+  "profile": {
+    "name": "Hazmi Badrunsham",
+    "role": "Software Engineer / Application Support Developer",
+    "tagline": "I build software, solve problems, and occasionally make things just because I want to see if I can.",
+    "location": "Kedah, Malaysia",
+    "email": "hello@hazmi.dev",
+    "github": "https://github.com/hazmi-badrunsham",
+    "githubLabel": "github.com/hazmi-badrunsham",
+    "linkedin": "https://www.linkedin.com/in/hazmi-badrunsham",
+    "linkedinLabel": "linkedin.com/in/hazmi-badrunsham",
+    "resume": ""
+  },
+
+  "about": {
+    "paragraphs": [
+      "I'm a Computer Science student with hands-on experience in application support and software development.",
+      "I've worked with SQL, .NET, JavaScript, reporting systems, and web applications, while also building my own projects outside of work.",
+      "I enjoy understanding how systems work, fixing things when they don't, and building small ideas into something usable."
+    ]
+  },
+
+  "experience": [
+    {
+      "company": "Datum Clearmind Sdn. Bhd.",
+      "role": "Application Support Developer",
+      "type": "Part-Time",
+      "period": "September 2026 – Present",
+      "current": true,
+      "points": [
+        "Develop and maintain SQL-based business reports.",
+        "Investigate application issues and data inconsistencies.",
+        "Work with insurance, accounting, CRM and reporting modules.",
+        "Perform testing and troubleshooting for application defects.",
+        "Provide technical support and investigate root causes."
+      ]
+    },
+    {
+      "company": "Datum Clearmind Sdn. Bhd.",
+      "role": "Application Support Intern",
+      "type": "",
+      "period": "March 2026 – September 2026",
+      "current": false,
+      "points": [
+        "Resolved application issues across web and mobile modules.",
+        "Created and maintained business reports using SQL and REPX.",
+        "Investigated data issues and performed basic root-cause analysis.",
+        "Tested application fixes and maintained GitLab work items.",
+        "Worked with application support and development teams."
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "name": "ResitMudah",
+      "description": "A small project built to make managing and viewing academic results simpler.",
+      "tech": ["SvelteKit", "Firebase"],
+      "github": "https://github.com/hazmi-badrunsham/resitmudah",
+      "demo": ""
+    },
+    {
+      "name": "Kandaq",
+      "description": "A small experimental app for discovering and documenting nasi kandar spots.",
+      "tech": ["Flutter", "Firebase"],
+      "github": "https://github.com/hazmi-badrunsham/kandaq",
+      "demo": ""
+    },
+    {
+      "name": "Personal Portfolio",
+      "description": "A minimalist developer portfolio designed around a Windows XP-inspired interface.",
+      "tech": ["HTML", "CSS", "JavaScript"],
+      "github": "https://github.com/hazmi-badrunsham/hazmi-badrunsham.github.io",
+      "demo": ""
+    }
+  ],
+
+  "freelance": {
+    "intro": "I also build simple websites and landing pages for small businesses, personal brands and side projects.",
+    "services": [
+      "Landing pages",
+      "Small business websites",
+      "Portfolio websites",
+      "Simple responsive websites",
+      "Website maintenance"
+    ],
+    "ctaTitle": "Need a simple website?",
+    "ctaLabel": "Let's talk →",
+    "ctaUrl": "mailto:hello@hazmi.dev"
+  },
+
+  "skills": [
+    { "group": "Languages", "items": ["C#", "JavaScript", "SQL", "Dart", "HTML", "CSS"] },
+    { "group": "Frameworks / Platforms", "items": [".NET", "Flutter", "SvelteKit", "Firebase"] },
+    { "group": "Tools", "items": ["Git", "GitLab", "GitHub", "PostgreSQL", "VS Code"] },
+    { "group": "Other", "items": ["Application Support", "SQL Reporting", "REST APIs", "Debugging", "Software Testing"] }
+  ],
+
+  "education": {
+    "institution": "International Islamic University Malaysia",
+    "degree": "Bachelor of Computer Science (Honours)",
+    "field": "Software Engineering",
+    "period": "Expected graduation: 2026",
+    "gcpa": "GCPA: 3.35",
+    "note": "Dean's List — Semester 6"
+  },
+
+  "contact": {
+    "heading": "Have a project, opportunity, or just want to say hi?",
+    "sub": "The fastest way to reach me is email. I usually reply within a day or two."
+  },
+
+  "footer": "Built with vanilla HTML, CSS and JavaScript. No frameworks, no build step."
+}
