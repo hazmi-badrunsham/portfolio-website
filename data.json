@@ -60,7 +60,7 @@
       "demo": ""
     },
     {
-      "name": "Kandaq",
+      "name": "Dekmisume",
       "description": "A small experimental app for discovering and documenting nasi kandar spots.",
       "tech": ["Flutter", "Firebase"],
       "github": "https://github.com/hazmi-badrunsham/kandaq",
@@ -99,10 +99,7 @@
   "education": {
     "institution": "International Islamic University Malaysia",
     "degree": "Bachelor of Computer Science (Honours)",
-    "field": "Software Engineering",
-    "period": "Expected graduation: 2026",
-    "gcpa": "GCPA: 3.35",
-    "note": "Dean's List — Semester 6"
+    "field": "Software Engineering"
   },
 
   "contact": {
