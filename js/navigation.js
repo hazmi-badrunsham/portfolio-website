@@ -146,6 +146,47 @@
     });
   }
 
+  /* "Show more" toggle in the Freelance showcase. Rendered by renderer.js,
+     so use delegation on #desktop. */
+  function initWorksToggle() {
+    document.getElementById('desktop').addEventListener('click', function (e) {
+      var btn = e.target.closest('#works-toggle');
+      if (!btn) return;
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      var open = panel.hidden;
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open
+        ? (window.WORKS_TOGGLE_LABELS && window.WORKS_TOGGLE_LABELS.less) || 'Show less'
+        : (window.WORKS_TOGGLE_LABELS && window.WORKS_TOGGLE_LABELS.more) || 'Show more';
+      if (open && !reduceMotion) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  }
+
+  /* If a content image is missing, swap its frame for a tidy placeholder
+     tile instead of a broken-image icon. Delegated via capture so it also
+     catches lazy-loaded images. */
+  function initImageFallback() {
+    document.addEventListener('error', function (e) {
+      var img = e.target;
+      if (!(img instanceof HTMLImageElement)) return;
+      if (img.hasAttribute('data-avatar-img')) {
+        var avatar = img.closest('.hero-avatar');
+        if (avatar) avatar.parentNode.removeChild(avatar);
+      } else if (img.hasAttribute('data-media-img')) {
+        var frame = img.closest('[data-media]');
+        if (frame) {
+          frame.classList.add('media-missing');
+          frame.removeChild(img);
+          frame.setAttribute('role', 'img');
+        }
+      }
+    }, true);
+  }
+
   function initClock() {
     var clock = document.getElementById('clock');
     if (!clock) return;
@@ -166,6 +207,8 @@
     initWindowControls();
     initActiveWindow();
     initScrollSpy();
+    initWorksToggle();
+    initImageFallback();
     initClock();
   }
 

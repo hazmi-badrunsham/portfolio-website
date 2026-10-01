@@ -46,6 +46,25 @@
     padding: 20px 16px;
   }
 
+  .hero-top {
+    gap: 14px;
+  }
+
+  .hero-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+  }
+
+  .works-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .works-toggle {
+    width: 100%;
+  }
+
   /* Hero buttons fill the row nicely on small screens */
   .hero-links .btn {
     flex: 1 1 auto;

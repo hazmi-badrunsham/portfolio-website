@@ -51,6 +51,18 @@
     return /^https?:/i.test(url) ? ' target="_blank" rel="noopener noreferrer"' : '';
   }
 
+  /* Media block: lazy-loaded image with a graceful fallback.
+     If the image is missing/broken, JS swaps in a placeholder tile. */
+  function mediaBlock(image, alt, className) {
+    if (!image || !image.src) return '';
+    return (
+      '<div class="' + className + ' media-frame" data-media>' +
+        '<img src="' + esc(image.src) + '" alt="' + esc(image.alt || alt || '') + '"' +
+          ' loading="lazy" decoding="async" data-media-img>' +
+      '</div>'
+    );
+  }
+
   /* ---------- About (hero) ---------- */
 
   function renderProfile(profile) {
@@ -61,11 +73,23 @@
     ];
     if (profile.resume) links.push({ label: 'Resume', href: profile.resume, ic: 'download' });
 
+    var avatar = profile.avatar && profile.avatar.image
+      ? '<div class="hero-avatar">' +
+          '<img src="' + esc(profile.avatar.image) + '" alt="' + esc(profile.avatar.alt || 'Photo of ' + profile.name) + '"' +
+            ' loading="lazy" decoding="async" data-avatar-img>' +
+        '</div>'
+      : '';
+
     var html =
-      '<h1 class="hero-name">' + esc(profile.name) + '</h1>' +
-      '<p class="hero-role">' + esc(profile.role) + '</p>' +
+      '<div class="hero-top">' +
+        avatar +
+        '<div class="hero-id">' +
+          '<h1 class="hero-name">' + esc(profile.name) + '</h1>' +
+          '<p class="hero-role">' + esc(profile.role) + '</p>' +
+          '<p class="hero-location">' + icon('pin', 13) + esc(profile.location) + '</p>' +
+        '</div>' +
+      '</div>' +
       '<blockquote class="hero-tagline">' + esc(profile.tagline) + '</blockquote>' +
-      '<p class="hero-location">' + icon('pin', 13) + esc(profile.location) + '</p>' +
       '<div class="hero-links">' +
       links.map(function (l) {
         return '<a class="btn" href="' + esc(l.href) + '"' + externalAttrs(l.href) + '>' +
@@ -130,6 +154,7 @@
         '<article class="project">' +
           '<div class="project-titlebar"><span>' + esc(p.name) + '</span>' +
             '<span class="project-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>' +
+          mediaBlock(p.image, 'Screenshot of ' + p.name, 'project-media') +
           '<div class="project-body">' +
             '<p class="project-desc">' + esc(p.description) + '</p>' +
             '<ul class="chip-row">' + chips + '</ul>' +
@@ -143,16 +168,62 @@
 
   /* ---------- Freelance ---------- */
 
+  /* One showcase card — reuses the mini-window project card look. */
+  function workCard(w) {
+    var chips = (w.tags || []).map(function (t) {
+      return '<li class="chip">' + esc(t) + '</li>';
+    }).join('');
+    var links = '';
+    if (w.demo) {
+      links += '<a class="text-link" href="' + esc(w.demo) + '"' + externalAttrs(w.demo) + '>' +
+        icon('external', 13) + ' Visit site</a>';
+    }
+    return (
+      '<article class="project">' +
+        '<div class="project-titlebar"><span>' + esc(w.title) + '</span>' +
+          '<span class="project-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>' +
+        mediaBlock(w.image, 'Screenshot of ' + w.title, 'project-media') +
+        '<div class="project-body">' +
+          '<p class="project-desc">' + esc(w.description) + '</p>' +
+          (chips ? '<ul class="chip-row">' + chips + '</ul>' : '') +
+          (links ? '<p class="project-links">' + links + '</p>' : '') +
+        '</div>' +
+      '</article>'
+    );
+  }
+
   function renderFreelance(f) {
     var services = (f.services || []).map(function (s) {
       return '<li>' + esc(s) + '</li>';
     }).join('');
+
+    var works = f.works || [];
+    var showcase = '';
+    if (works.length) {
+      var cards = works.slice(0, 3).map(workCard).join('');
+      var extra = works.slice(3).map(workCard).join('');
+      showcase =
+        '<div class="works-head">' +
+          '<h3 class="works-title">' + esc(f.showcaseTitle || 'Selected work') + '</h3>' +
+          '<button type="button" class="btn works-toggle" id="works-toggle" aria-expanded="false" aria-controls="works-extra">' +
+            esc(f.toggleLabel || 'Show more') +
+          '</button>' +
+        '</div>' +
+        '<div class="projects-grid">' + cards + '</div>' +
+        (extra
+          ? '<div class="works-extra" id="works-extra" hidden><div class="projects-grid">' + extra + '</div></div>' +
+            '<p class="works-foot">' + esc(f.contactLine) +
+              ' <a href="' + esc(f.contactUrl || '#contact') + '">' + esc(f.contactLabel) + '</a></p>'
+          : '');
+    }
+
     var html =
       '<p class="freelance-intro">' + esc(f.intro) + '</p>' +
       '<ul class="dash-list">' + services + '</ul>' +
+      showcase +
       '<div class="cta-box">' +
-        '<h3 class="cta-title">' + esc(f.ctaTitle) + '</h3>' +
-        '<a class="btn btn-primary" href="' + esc(f.ctaUrl) + '">' + esc(f.ctaLabel) + '</a>' +
+        '<h3 class="cta-title">' + esc(f.ctaTitle || 'Need something like this ?') + '</h3>' +
+        '<a class="btn btn-primary" href="' + esc(f.ctaUrl) + '">' + esc(f.ctaLabel || "Let's talk") + '</a>' +
       '</div>';
     setHTML('freelance-content', html);
   }

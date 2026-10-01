@@ -9,14 +9,16 @@
     "githubLabel": "github.com/hazmi-badrunsham",
     "linkedin": "https://www.linkedin.com/in/hazmi-badrunsham",
     "linkedinLabel": "linkedin.com/in/hazmi-badrunsham",
-    "resume": ""
+    "resume": "",
+    "avatar": {
+      "image": "assets/images/me.png",
+      "alt": "Photo of Hazmi Badrunsham"
+    }
   },
 
   "about": {
     "paragraphs": [
-      "I'm a Computer Science student with hands-on experience in application support and software development.",
-      "I've worked with SQL, .NET, JavaScript, reporting systems, and web applications, while also building my own projects outside of work.",
-      "I enjoy understanding how systems work, fixing things when they don't, and building small ideas into something usable."
+      "Nothing much actually, just tryna land my first job."
     ]
   },
 
@@ -28,11 +30,7 @@
       "period": "September 2026 – Present",
       "current": true,
       "points": [
-        "Develop and maintain SQL-based business reports.",
-        "Investigate application issues and data inconsistencies.",
-        "Work with insurance, accounting, CRM and reporting modules.",
-        "Perform testing and troubleshooting for application defects.",
-        "Provide technical support and investigate root causes."
+        "Just continued from my internship, now working part-time."
       ]
     },
     {
@@ -45,8 +43,9 @@
         "Resolved application issues across web and mobile modules.",
         "Created and maintained business reports using SQL and REPX.",
         "Investigated data issues and performed basic root-cause analysis.",
-        "Tested application fixes and maintained GitLab work items.",
-        "Worked with application support and development teams."
+        "Participated in low-code development activities, including configuring workflows and supporting enhancements to meet operational requirements",
+        "Participated in API integration testing, Git-based workflows, and documentation.",
+        "Typical application support tasks"
       ]
     }
   ],
@@ -54,24 +53,27 @@
   "projects": [
     {
       "name": "ResitMudah",
-      "description": "A small project built to make managing and viewing academic results simpler.",
+      "description": "A web app version of Android app ResitMudah, a receipt mangement app",
       "tech": ["SvelteKit", "Firebase"],
-      "github": "https://github.com/hazmi-badrunsham/resitmudah",
-      "demo": ""
+      "github": "https://resit-mudah-web.vercel.app/",
+      "demo": "",
+      "image": { "src": "assets/images/project-resitmudah.png", "alt": "Screenshot of the ResitMudah web app" }
     },
     {
-      "name": "Dekmisume",
+      "name": "Kandaq",
       "description": "A small experimental app for discovering and documenting nasi kandar spots.",
       "tech": ["Flutter", "Firebase"],
       "github": "https://github.com/hazmi-badrunsham/kandaq",
-      "demo": ""
+      "demo": "",
+      "image": { "src": "assets/images/project-kandaq.png", "alt": "Screenshot of the Kandaq app" }
     },
     {
       "name": "Personal Portfolio",
       "description": "A minimalist developer portfolio designed around a Windows XP-inspired interface.",
       "tech": ["HTML", "CSS", "JavaScript"],
       "github": "https://github.com/hazmi-badrunsham/hazmi-badrunsham.github.io",
-      "demo": ""
+      "demo": "",
+      "image": { "src": "assets/images/project-portfolio.png", "alt": "Screenshot of this portfolio website" }
     }
   ],
 
@@ -84,9 +86,42 @@
       "Simple responsive websites",
       "Website maintenance"
     ],
-    "ctaTitle": "Need a simple website?",
-    "ctaLabel": "Let's talk →",
-    "ctaUrl": "mailto:hello@hazmi.dev"
+    "toggleLabel": "See more",
+    "toggleLabelActive": "Hide work",
+    "showcaseTitle": "Things I've built for people",
+    "works": [
+      {
+        "title": "Friend's Portfolio",
+        "description": "A personal portfolio website built for a friend to showcase their work and projects.",
+        "tags": ["Portfolio", "Responsive"],
+        "image": { "src": "assets/images/work-friend-portfolio.png", "alt": "Screenshot of a portfolio website I built for a friend" },
+        "demo": ""
+      },
+      {
+        "title": "Cafe Landing Page",
+        "description": "A simple landing page for a cafe — menu, opening hours, location and contact details.",
+        "tags": ["Landing page", "HTML/CSS"],
+        "image": { "src": "assets/images/work-cafe-one.png", "alt": "Screenshot of a cafe landing page" },
+        "demo": ""
+      },
+      {
+        "title": "POS System Web App",
+        "description": "A web-based point-of-sale system for handling orders and sales at a small shop.",
+        "tags": ["Web app", "JavaScript"],
+        "image": { "src": "assets/images/work-pos.png", "alt": "Screenshot of the POS system web app" },
+        "demo": ""
+      },
+      {
+        "title": "Second Cafe Landing Page",
+        "description": "Another cafe landing page — same idea, different look, layout and colour scheme.",
+        "tags": ["Landing page", "Responsive"],
+        "image": { "src": "assets/images/work-cafe-two.png", "alt": "Screenshot of a second cafe landing page" },
+        "demo": ""
+      }
+    ],
+    "contactLine": "",
+    "contactLabel": "",
+    "contactUrl": "mailto:hello@hazmi.dev"
   },
 
   "skills": [
@@ -99,7 +134,10 @@
   "education": {
     "institution": "International Islamic University Malaysia",
     "degree": "Bachelor of Computer Science (Honours)",
-    "field": "Software Engineering"
+    "field": "Software Engineering",
+    "period": "Expected graduation: 2026",
+    "gcpa": "GCPA: 3.35",
+    "note": "Dean's List — Semester 6"
   },
 
   "contact": {
