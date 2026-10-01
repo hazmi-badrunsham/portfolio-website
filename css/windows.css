@@ -332,9 +332,12 @@
   padding: 14px 16px 16px;
 }
 
-/* Screenshot area above a project/work card body */
+/* Screenshot area above a project/work card body.
+   Fixed frame, image zoomed to fill and cropped to match, so every card
+   in the grid lines up regardless of the source image's ratio. */
 .project-media {
   aspect-ratio: 16 / 9;
+  overflow: hidden;
   background: var(--chip-bg);
   border-bottom: 1px solid var(--border);
 }
@@ -344,7 +347,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
+  object-position: top center;
 }
 
 /* Placeholder shown when the image file is missing */

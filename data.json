@@ -4,14 +4,14 @@
     "role": "Software Engineer / Application Support Developer",
     "tagline": "I build software, solve problems, and occasionally make things just because I want to see if I can.",
     "location": "Kedah, Malaysia",
-    "email": "hello@hazmi.dev",
+    "email": "hazmi.badrunsham@gmail.com",
     "github": "https://github.com/hazmi-badrunsham",
     "githubLabel": "github.com/hazmi-badrunsham",
     "linkedin": "https://www.linkedin.com/in/hazmi-badrunsham",
     "linkedinLabel": "linkedin.com/in/hazmi-badrunsham",
     "resume": "",
     "avatar": {
-      "image": "assets/images/me.png",
+      "image": "assets/images/mi.png",
       "alt": "Photo of Hazmi Badrunsham"
     }
   },
@@ -55,25 +55,9 @@
       "name": "ResitMudah",
       "description": "A web app version of Android app ResitMudah, a receipt mangement app",
       "tech": ["SvelteKit", "Firebase"],
-      "github": "https://resit-mudah-web.vercel.app/",
-      "demo": "",
-      "image": { "src": "assets/images/project-resitmudah.png", "alt": "Screenshot of the ResitMudah web app" }
-    },
-    {
-      "name": "Kandaq",
-      "description": "A small experimental app for discovering and documenting nasi kandar spots.",
-      "tech": ["Flutter", "Firebase"],
-      "github": "https://github.com/hazmi-badrunsham/kandaq",
-      "demo": "",
-      "image": { "src": "assets/images/project-kandaq.png", "alt": "Screenshot of the Kandaq app" }
-    },
-    {
-      "name": "Personal Portfolio",
-      "description": "A minimalist developer portfolio designed around a Windows XP-inspired interface.",
-      "tech": ["HTML", "CSS", "JavaScript"],
-      "github": "https://github.com/hazmi-badrunsham/hazmi-badrunsham.github.io",
-      "demo": "",
-      "image": { "src": "assets/images/project-portfolio.png", "alt": "Screenshot of this portfolio website" }
+      "github": "",
+      "demo": "https://resit-mudah-web.vercel.app/",
+      "image": { "src": "assets/images/resitmudah.png", "alt": "Screenshot of the ResitMudah web app" }
     }
   ],
 
@@ -82,34 +66,32 @@
     "services": [
       "Landing pages",
       "Small business websites",
-      "Portfolio websites",
-      "Simple responsive websites",
-      "Website maintenance"
+      "Portfolio websites"
     ],
     "toggleLabel": "See more",
     "toggleLabelActive": "Hide work",
     "showcaseTitle": "Things I've built for people",
     "works": [
       {
-        "title": "Friend's Portfolio",
-        "description": "A personal portfolio website built for a friend to showcase their work and projects.",
-        "tags": ["Portfolio", "Responsive"],
-        "image": { "src": "assets/images/work-friend-portfolio.png", "alt": "Screenshot of a portfolio website I built for a friend" },
-        "demo": ""
+        "title": "Yusof's Portfolio",
+        "description": "A personal portfolio website built to showcase their work and projects.",
+        "tags": ["Astro JS"],
+        "image": { "src": "assets/images/ucop.png", "alt": "Screenshot of a portfolio website I built for a friend" },
+        "demo": "https://yusuf-luqman.netlify.app/"
       },
       {
-        "title": "Cafe Landing Page",
-        "description": "A simple landing page for a cafe — menu, opening hours, location and contact details.",
-        "tags": ["Landing page", "HTML/CSS"],
-        "image": { "src": "assets/images/work-cafe-one.png", "alt": "Screenshot of a cafe landing page" },
-        "demo": ""
+        "title": "Yadd's Cafe",
+        "description": "A simple landing page for a cafe.",
+        "tags": ["Astro JS"],
+        "image": { "src": "assets/images/yaddcafe.png", "alt": "Screenshot of a cafe landing page" },
+        "demo": "https://yadd-cafe.netlify.app/"
       },
       {
         "title": "POS System Web App",
         "description": "A web-based point-of-sale system for handling orders and sales at a small shop.",
-        "tags": ["Web app", "JavaScript"],
-        "image": { "src": "assets/images/work-pos.png", "alt": "Screenshot of the POS system web app" },
-        "demo": ""
+        "tags": ["Google Sheet", "JavaScript"],
+        "image": { "src": "assets/images/posyadd.jpeg", "alt": "Screenshot of the POS system web app" },
+        "demo": "https://yadd-cafe.netlify.app/"
       },
       {
         "title": "Second Cafe Landing Page",
@@ -121,7 +103,7 @@
     ],
     "contactLine": "",
     "contactLabel": "",
-    "contactUrl": "mailto:hello@hazmi.dev"
+    "contactUrl": "hazmi.badrunsham@gmail.com"
   },
 
   "skills": [
@@ -135,9 +117,9 @@
     "institution": "International Islamic University Malaysia",
     "degree": "Bachelor of Computer Science (Honours)",
     "field": "Software Engineering",
-    "period": "Expected graduation: 2026",
-    "gcpa": "GCPA: 3.35",
-    "note": "Dean's List — Semester 6"
+    "period": "",
+    "gcpa": "",
+    "note": ""
   },
 
   "contact": {
@@ -145,5 +127,5 @@
     "sub": "The fastest way to reach me is email. I usually reply within a day or two."
   },
 
-  "footer": "Built with vanilla HTML, CSS and JavaScript. No frameworks, no build step."
+  "footer": "Built with Vanilla JS."
 }

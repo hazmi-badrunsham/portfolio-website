@@ -58,122 +58,6 @@ README.md
 <files>
 This section contains the contents of the repository's files.
 
-<file path="css/responsive.css">
-/* ============================================================
-   responsive.css — tablet & mobile adaptations
-   Windows become full-width cards; the taskbar adapts.
-   ============================================================ */
-
-@media (max-width: 720px) {
-  :root {
-    --taskbar-h: 56px;
-  }
-
-  body {
-    font-size: 14.5px;
-  }
-
-  .desktop {
-    gap: 22px;
-    max-width: 100%;
-    padding: 20px 12px 28px;
-  }
-
-  /* Windows become plain full-width cards */
-  .window {
-    border-radius: 10px;
-  }
-
-  .window:hover,
-  .window.active {
-    box-shadow: 0 10px 28px var(--shadow), 0 2px 6px var(--shadow);
-    transform: none;
-  }
-
-  .titlebar {
-    height: 40px;
-  }
-
-  .window-title {
-    font-size: 13px;
-  }
-
-  .win-btn {
-    width: 42px;
-    height: 28px;
-  }
-
-  .window-body {
-    padding: 20px 16px;
-  }
-
-  /* Hero buttons fill the row nicely on small screens */
-  .hero-links .btn {
-    flex: 1 1 auto;
-  }
-
-  /* Taskbar: same idea, roomier touch targets */
-  .taskbar {
-    gap: 6px;
-    padding: 6px 8px;
-  }
-
-  .start-btn {
-    height: 40px;
-    padding: 0 12px 0 10px;
-  }
-
-  .task-link {
-    height: 40px;
-    padding: 0 10px;
-    font-size: 12.5px;
-  }
-
-  .tray-btn {
-    width: 38px;
-    height: 38px;
-  }
-
-  /* Start menu becomes a full-width sheet above the taskbar */
-  .start-menu {
-    right: 8px;
-    bottom: calc(var(--taskbar-h) + 8px);
-    left: 8px;
-    width: auto;
-  }
-
-  .dash-list {
-    grid-template-columns: 1fr;
-  }
-
-  .cta-box {
-    align-items: stretch;
-    flex-direction: column;
-    padding: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .start-label {
-    display: none;
-  }
-
-  .start-btn {
-    padding: 0 10px;
-  }
-}
-
-@media (max-width: 400px) {
-  .clock {
-    display: none;
-  }
-
-  .task-link {
-    padding: 0 8px;
-  }
-}
-</file>
-
 <file path="css/style.css">
 /* ============================================================
    style.css — theme variables, base styles, taskbar, start menu
@@ -713,6 +597,251 @@ code {
 }
 </file>
 
+<file path="js/app.js">
+/* ============================================================
+   app.js — entry point.
+   Sets up the theme and navigation, then loads data.json and
+   renders the content. If the fetch fails (e.g. the page was
+   opened via file:// instead of a local server), shows a
+   helpful error instead of a blank page.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  function showLoadError(err) {
+    var desktop = document.getElementById('desktop');
+    if (!desktop) return;
+    desktop.innerHTML = [
+      '<section class="window">',
+      '  <header class="titlebar"><h2 class="window-title">portfolio.exe — error</h2></header>',
+      '  <div class="window-body">',
+      '    <h3 style="margin-top:0">Couldn’t load content</h3>',
+      '    <p>This site loads its content from <code>data.json</code>, which browsers block',
+      '       when a page is opened directly from the file system (file://).</p>',
+      '    <p>Run a small local server from this folder and open the page again:</p>',
+      '    <pre class="code-block">python -m http.server 8000\n# then visit http://localhost:8000</pre>',
+      '    <p class="error-detail"></p>',
+      '  </div>',
+      '</section>'
+    ].join('\n');
+    var detail = desktop.querySelector('.error-detail');
+    if (detail) detail.textContent = 'Details: ' + String((err && err.message) || err);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    window.Theme.init();
+    window.Navigation.init();
+
+    fetch('data.json')
+      .then(function (response) {
+        if (!response.ok) throw new Error('data.json returned HTTP ' + response.status);
+        return response.json();
+      })
+      .then(function (data) {
+        window.Renderer.renderAll(data);
+      })
+      .catch(showLoadError);
+  });
+})();
+</file>
+
+<file path="js/theme.js">
+/* ============================================================
+   theme.js — light/dark theme toggle with localStorage.
+   Reads the theme set by the inline script in <head> and
+   syncs the toggle button icon/label.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'xpfolio-theme';
+
+  var SUN = '<svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="3.2"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M12.6 3.4l-1.1 1.1M4.5 11.5l-1.1 1.1"/></svg>';
+  var MOON = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13.5 9.5A5.5 5.5 0 1 1 6.5 2.5a4.5 4.5 0 0 0 7 7z"/></svg>';
+
+  function preferred() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function saved() {
+    try {
+      return localStorage.getItem(STORAGE_KEY);
+    } catch (e) {
+      return null; // e.g. private mode
+    }
+  }
+
+  function apply(theme, persist) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (persist) {
+      try {
+        localStorage.setItem(STORAGE_KEY, theme);
+      } catch (e) { /* ignore */ }
+    }
+    var holder = document.getElementById('theme-icon');
+    var btn = document.getElementById('theme-toggle');
+    if (holder) holder.innerHTML = theme === 'dark' ? SUN : MOON;
+    if (btn) btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+  function init() {
+    apply(saved() || preferred(), false);
+
+    var btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        apply(current === 'dark' ? 'light' : 'dark', true);
+      });
+    }
+
+    // Follow the OS theme only while the user hasn't chosen explicitly.
+    var media = window.matchMedia('(prefers-color-scheme: dark)');
+    var onChange = function (e) {
+      if (!saved()) apply(e.matches ? 'dark' : 'light', false);
+    };
+    if (media.addEventListener) media.addEventListener('change', onChange);
+  }
+
+  window.Theme = { init: init };
+})();
+</file>
+
+<file path="css/responsive.css">
+/* ============================================================
+   responsive.css — tablet & mobile adaptations
+   Windows become full-width cards; the taskbar adapts.
+   ============================================================ */
+
+@media (max-width: 720px) {
+  :root {
+    --taskbar-h: 56px;
+  }
+
+  body {
+    font-size: 14.5px;
+  }
+
+  .desktop {
+    gap: 22px;
+    max-width: 100%;
+    padding: 20px 12px 28px;
+  }
+
+  /* Windows become plain full-width cards */
+  .window {
+    border-radius: 10px;
+  }
+
+  .window:hover,
+  .window.active {
+    box-shadow: 0 10px 28px var(--shadow), 0 2px 6px var(--shadow);
+    transform: none;
+  }
+
+  .titlebar {
+    height: 40px;
+  }
+
+  .window-title {
+    font-size: 13px;
+  }
+
+  .win-btn {
+    width: 42px;
+    height: 28px;
+  }
+
+  .window-body {
+    padding: 20px 16px;
+  }
+
+  .hero-top {
+    gap: 14px;
+  }
+
+  .hero-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+  }
+
+  .works-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .works-toggle {
+    width: 100%;
+  }
+
+  /* Hero buttons fill the row nicely on small screens */
+  .hero-links .btn {
+    flex: 1 1 auto;
+  }
+
+  /* Taskbar: same idea, roomier touch targets */
+  .taskbar {
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .start-btn {
+    height: 40px;
+    padding: 0 12px 0 10px;
+  }
+
+  .task-link {
+    height: 40px;
+    padding: 0 10px;
+    font-size: 12.5px;
+  }
+
+  .tray-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Start menu becomes a full-width sheet above the taskbar */
+  .start-menu {
+    right: 8px;
+    bottom: calc(var(--taskbar-h) + 8px);
+    left: 8px;
+    width: auto;
+  }
+
+  .dash-list {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-box {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .start-label {
+    display: none;
+  }
+
+  .start-btn {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .clock {
+    display: none;
+  }
+
+  .task-link {
+    padding: 0 8px;
+  }
+}
+</file>
+
 <file path="css/windows.css">
 /* ============================================================
    windows.css — window frames, title bars, and section content
@@ -836,6 +965,35 @@ code {
 }
 
 /* ---------- Hero (About window) ---------- */
+
+.hero-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.hero-avatar {
+  flex: none;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  background: var(--chip-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.hero-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-id {
+  min-width: 0;
+}
 
 .hero-name {
   margin: 0 0 4px;
@@ -1019,6 +1177,36 @@ code {
   padding: 14px 16px 16px;
 }
 
+/* Screenshot area above a project/work card body */
+.project-media {
+  aspect-ratio: 16 / 9;
+  background: var(--chip-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.project-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Placeholder shown when the image file is missing */
+.media-missing {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+}
+
+.media-missing::after {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  content: "screenshot coming soon";
+}
+
 .project-desc {
   flex: 1;
   margin: 0;
@@ -1068,6 +1256,7 @@ code {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 14px;
+  margin-top: 18px;
   padding: 16px 18px;
   background: var(--chip-bg);
   border: 1px solid var(--chip-border);
@@ -1077,6 +1266,45 @@ code {
 .cta-title {
   margin: 0;
   font-size: 16px;
+}
+
+/* ---------- Freelance showcase ---------- */
+
+.works-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.works-title {
+  margin: 0;
+  font-size: 15px;
+}
+
+.works-toggle {
+  flex: none;
+}
+
+.works-extra {
+  margin-top: 16px;
+}
+
+.works-extra:not([hidden]) {
+  animation: window-in 0.2s ease-out;
+}
+
+.works-foot {
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.works-foot a {
+  font-weight: 600;
 }
 
 /* ---------- Skills & education ---------- */
@@ -1161,54 +1389,6 @@ code {
 .contact-list a:hover {
   text-decoration: underline;
 }
-</file>
-
-<file path="js/app.js">
-/* ============================================================
-   app.js — entry point.
-   Sets up the theme and navigation, then loads data.json and
-   renders the content. If the fetch fails (e.g. the page was
-   opened via file:// instead of a local server), shows a
-   helpful error instead of a blank page.
-   ============================================================ */
-(function () {
-  'use strict';
-
-  function showLoadError(err) {
-    var desktop = document.getElementById('desktop');
-    if (!desktop) return;
-    desktop.innerHTML = [
-      '<section class="window">',
-      '  <header class="titlebar"><h2 class="window-title">portfolio.exe — error</h2></header>',
-      '  <div class="window-body">',
-      '    <h3 style="margin-top:0">Couldn’t load content</h3>',
-      '    <p>This site loads its content from <code>data.json</code>, which browsers block',
-      '       when a page is opened directly from the file system (file://).</p>',
-      '    <p>Run a small local server from this folder and open the page again:</p>',
-      '    <pre class="code-block">python -m http.server 8000\n# then visit http://localhost:8000</pre>',
-      '    <p class="error-detail"></p>',
-      '  </div>',
-      '</section>'
-    ].join('\n');
-    var detail = desktop.querySelector('.error-detail');
-    if (detail) detail.textContent = 'Details: ' + String((err && err.message) || err);
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    window.Theme.init();
-    window.Navigation.init();
-
-    fetch('data.json')
-      .then(function (response) {
-        if (!response.ok) throw new Error('data.json returned HTTP ' + response.status);
-        return response.json();
-      })
-      .then(function (data) {
-        window.Renderer.renderAll(data);
-      })
-      .catch(showLoadError);
-  });
-})();
 </file>
 
 <file path="js/navigation.js">
@@ -1360,6 +1540,47 @@ code {
     });
   }
 
+  /* "Show more" toggle in the Freelance showcase. Rendered by renderer.js,
+     so use delegation on #desktop. */
+  function initWorksToggle() {
+    document.getElementById('desktop').addEventListener('click', function (e) {
+      var btn = e.target.closest('#works-toggle');
+      if (!btn) return;
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      var open = panel.hidden;
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open
+        ? (window.WORKS_TOGGLE_LABELS && window.WORKS_TOGGLE_LABELS.less) || 'Show less'
+        : (window.WORKS_TOGGLE_LABELS && window.WORKS_TOGGLE_LABELS.more) || 'Show more';
+      if (open && !reduceMotion) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  }
+
+  /* If a content image is missing, swap its frame for a tidy placeholder
+     tile instead of a broken-image icon. Delegated via capture so it also
+     catches lazy-loaded images. */
+  function initImageFallback() {
+    document.addEventListener('error', function (e) {
+      var img = e.target;
+      if (!(img instanceof HTMLImageElement)) return;
+      if (img.hasAttribute('data-avatar-img')) {
+        var avatar = img.closest('.hero-avatar');
+        if (avatar) avatar.parentNode.removeChild(avatar);
+      } else if (img.hasAttribute('data-media-img')) {
+        var frame = img.closest('[data-media]');
+        if (frame) {
+          frame.classList.add('media-missing');
+          frame.removeChild(img);
+          frame.setAttribute('role', 'img');
+        }
+      }
+    }, true);
+  }
+
   function initClock() {
     var clock = document.getElementById('clock');
     if (!clock) return;
@@ -1380,6 +1601,8 @@ code {
     initWindowControls();
     initActiveWindow();
     initScrollSpy();
+    initWorksToggle();
+    initImageFallback();
     initClock();
   }
 
@@ -1441,6 +1664,18 @@ code {
     return /^https?:/i.test(url) ? ' target="_blank" rel="noopener noreferrer"' : '';
   }
 
+  /* Media block: lazy-loaded image with a graceful fallback.
+     If the image is missing/broken, JS swaps in a placeholder tile. */
+  function mediaBlock(image, alt, className) {
+    if (!image || !image.src) return '';
+    return (
+      '<div class="' + className + ' media-frame" data-media>' +
+        '<img src="' + esc(image.src) + '" alt="' + esc(image.alt || alt || '') + '"' +
+          ' loading="lazy" decoding="async" data-media-img>' +
+      '</div>'
+    );
+  }
+
   /* ---------- About (hero) ---------- */
 
   function renderProfile(profile) {
@@ -1451,11 +1686,23 @@ code {
     ];
     if (profile.resume) links.push({ label: 'Resume', href: profile.resume, ic: 'download' });
 
+    var avatar = profile.avatar && profile.avatar.image
+      ? '<div class="hero-avatar">' +
+          '<img src="' + esc(profile.avatar.image) + '" alt="' + esc(profile.avatar.alt || 'Photo of ' + profile.name) + '"' +
+            ' loading="lazy" decoding="async" data-avatar-img>' +
+        '</div>'
+      : '';
+
     var html =
-      '<h1 class="hero-name">' + esc(profile.name) + '</h1>' +
-      '<p class="hero-role">' + esc(profile.role) + '</p>' +
+      '<div class="hero-top">' +
+        avatar +
+        '<div class="hero-id">' +
+          '<h1 class="hero-name">' + esc(profile.name) + '</h1>' +
+          '<p class="hero-role">' + esc(profile.role) + '</p>' +
+          '<p class="hero-location">' + icon('pin', 13) + esc(profile.location) + '</p>' +
+        '</div>' +
+      '</div>' +
       '<blockquote class="hero-tagline">' + esc(profile.tagline) + '</blockquote>' +
-      '<p class="hero-location">' + icon('pin', 13) + esc(profile.location) + '</p>' +
       '<div class="hero-links">' +
       links.map(function (l) {
         return '<a class="btn" href="' + esc(l.href) + '"' + externalAttrs(l.href) + '>' +
@@ -1520,6 +1767,7 @@ code {
         '<article class="project">' +
           '<div class="project-titlebar"><span>' + esc(p.name) + '</span>' +
             '<span class="project-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>' +
+          mediaBlock(p.image, 'Screenshot of ' + p.name, 'project-media') +
           '<div class="project-body">' +
             '<p class="project-desc">' + esc(p.description) + '</p>' +
             '<ul class="chip-row">' + chips + '</ul>' +
@@ -1533,16 +1781,62 @@ code {
 
   /* ---------- Freelance ---------- */
 
+  /* One showcase card — reuses the mini-window project card look. */
+  function workCard(w) {
+    var chips = (w.tags || []).map(function (t) {
+      return '<li class="chip">' + esc(t) + '</li>';
+    }).join('');
+    var links = '';
+    if (w.demo) {
+      links += '<a class="text-link" href="' + esc(w.demo) + '"' + externalAttrs(w.demo) + '>' +
+        icon('external', 13) + ' Visit site</a>';
+    }
+    return (
+      '<article class="project">' +
+        '<div class="project-titlebar"><span>' + esc(w.title) + '</span>' +
+          '<span class="project-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>' +
+        mediaBlock(w.image, 'Screenshot of ' + w.title, 'project-media') +
+        '<div class="project-body">' +
+          '<p class="project-desc">' + esc(w.description) + '</p>' +
+          (chips ? '<ul class="chip-row">' + chips + '</ul>' : '') +
+          (links ? '<p class="project-links">' + links + '</p>' : '') +
+        '</div>' +
+      '</article>'
+    );
+  }
+
   function renderFreelance(f) {
     var services = (f.services || []).map(function (s) {
       return '<li>' + esc(s) + '</li>';
     }).join('');
+
+    var works = f.works || [];
+    var showcase = '';
+    if (works.length) {
+      var cards = works.slice(0, 3).map(workCard).join('');
+      var extra = works.slice(3).map(workCard).join('');
+      showcase =
+        '<div class="works-head">' +
+          '<h3 class="works-title">' + esc(f.showcaseTitle || 'Selected work') + '</h3>' +
+          '<button type="button" class="btn works-toggle" id="works-toggle" aria-expanded="false" aria-controls="works-extra">' +
+            esc(f.toggleLabel || 'Show more') +
+          '</button>' +
+        '</div>' +
+        '<div class="projects-grid">' + cards + '</div>' +
+        (extra
+          ? '<div class="works-extra" id="works-extra" hidden><div class="projects-grid">' + extra + '</div></div>' +
+            '<p class="works-foot">' + esc(f.contactLine) +
+              ' <a href="' + esc(f.contactUrl || '#contact') + '">' + esc(f.contactLabel) + '</a></p>'
+          : '');
+    }
+
     var html =
       '<p class="freelance-intro">' + esc(f.intro) + '</p>' +
       '<ul class="dash-list">' + services + '</ul>' +
+      showcase +
       '<div class="cta-box">' +
-        '<h3 class="cta-title">' + esc(f.ctaTitle) + '</h3>' +
-        '<a class="btn btn-primary" href="' + esc(f.ctaUrl) + '">' + esc(f.ctaLabel) + '</a>' +
+        '<h3 class="cta-title">' + esc(f.ctaTitle || 'Need something like this ?') + '</h3>' +
+        '<a class="btn btn-primary" href="' + esc(f.ctaUrl) + '">' + esc(f.ctaLabel || "Let's talk") + '</a>' +
       '</div>';
     setHTML('freelance-content', html);
   }
@@ -1630,68 +1924,6 @@ code {
 })();
 </file>
 
-<file path="js/theme.js">
-/* ============================================================
-   theme.js — light/dark theme toggle with localStorage.
-   Reads the theme set by the inline script in <head> and
-   syncs the toggle button icon/label.
-   ============================================================ */
-(function () {
-  'use strict';
-
-  var STORAGE_KEY = 'xpfolio-theme';
-
-  var SUN = '<svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="3.2"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M12.6 3.4l-1.1 1.1M4.5 11.5l-1.1 1.1"/></svg>';
-  var MOON = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13.5 9.5A5.5 5.5 0 1 1 6.5 2.5a4.5 4.5 0 0 0 7 7z"/></svg>';
-
-  function preferred() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-
-  function saved() {
-    try {
-      return localStorage.getItem(STORAGE_KEY);
-    } catch (e) {
-      return null; // e.g. private mode
-    }
-  }
-
-  function apply(theme, persist) {
-    document.documentElement.setAttribute('data-theme', theme);
-    if (persist) {
-      try {
-        localStorage.setItem(STORAGE_KEY, theme);
-      } catch (e) { /* ignore */ }
-    }
-    var holder = document.getElementById('theme-icon');
-    var btn = document.getElementById('theme-toggle');
-    if (holder) holder.innerHTML = theme === 'dark' ? SUN : MOON;
-    if (btn) btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-  }
-
-  function init() {
-    apply(saved() || preferred(), false);
-
-    var btn = document.getElementById('theme-toggle');
-    if (btn) {
-      btn.addEventListener('click', function () {
-        var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-        apply(current === 'dark' ? 'light' : 'dark', true);
-      });
-    }
-
-    // Follow the OS theme only while the user hasn't chosen explicitly.
-    var media = window.matchMedia('(prefers-color-scheme: dark)');
-    var onChange = function (e) {
-      if (!saved()) apply(e.matches ? 'dark' : 'light', false);
-    };
-    if (media.addEventListener) media.addEventListener('change', onChange);
-  }
-
-  window.Theme = { init: init };
-})();
-</file>
-
 <file path="data.json">
 {
   "profile": {
@@ -1704,14 +1936,16 @@ code {
     "githubLabel": "github.com/hazmi-badrunsham",
     "linkedin": "https://www.linkedin.com/in/hazmi-badrunsham",
     "linkedinLabel": "linkedin.com/in/hazmi-badrunsham",
-    "resume": ""
+    "resume": "",
+    "avatar": {
+      "image": "assets/images/me.png",
+      "alt": "Photo of Hazmi Badrunsham"
+    }
   },
 
   "about": {
     "paragraphs": [
-      "I'm a Computer Science student with hands-on experience in application support and software development.",
-      "I've worked with SQL, .NET, JavaScript, reporting systems, and web applications, while also building my own projects outside of work.",
-      "I enjoy understanding how systems work, fixing things when they don't, and building small ideas into something usable."
+      "Nothing much actually, just tryna land my first job."
     ]
   },
 
@@ -1723,11 +1957,7 @@ code {
       "period": "September 2026 – Present",
       "current": true,
       "points": [
-        "Develop and maintain SQL-based business reports.",
-        "Investigate application issues and data inconsistencies.",
-        "Work with insurance, accounting, CRM and reporting modules.",
-        "Perform testing and troubleshooting for application defects.",
-        "Provide technical support and investigate root causes."
+        "Just continued from my internship, now working part-time."
       ]
     },
     {
@@ -1740,8 +1970,9 @@ code {
         "Resolved application issues across web and mobile modules.",
         "Created and maintained business reports using SQL and REPX.",
         "Investigated data issues and performed basic root-cause analysis.",
-        "Tested application fixes and maintained GitLab work items.",
-        "Worked with application support and development teams."
+        "Participated in low-code development activities, including configuring workflows and supporting enhancements to meet operational requirements",
+        "Participated in API integration testing, Git-based workflows, and documentation.",
+        "Typical application support tasks"
       ]
     }
   ],
@@ -1749,24 +1980,27 @@ code {
   "projects": [
     {
       "name": "ResitMudah",
-      "description": "A small project built to make managing and viewing academic results simpler.",
+      "description": "A web app version of Android app ResitMudah, a receipt mangement app",
       "tech": ["SvelteKit", "Firebase"],
-      "github": "https://github.com/hazmi-badrunsham/resitmudah",
-      "demo": ""
+      "github": "https://resit-mudah-web.vercel.app/",
+      "demo": "",
+      "image": { "src": "assets/images/project-resitmudah.png", "alt": "Screenshot of the ResitMudah web app" }
     },
     {
-      "name": "Dekmisume",
+      "name": "Kandaq",
       "description": "A small experimental app for discovering and documenting nasi kandar spots.",
       "tech": ["Flutter", "Firebase"],
       "github": "https://github.com/hazmi-badrunsham/kandaq",
-      "demo": ""
+      "demo": "",
+      "image": { "src": "assets/images/project-kandaq.png", "alt": "Screenshot of the Kandaq app" }
     },
     {
       "name": "Personal Portfolio",
       "description": "A minimalist developer portfolio designed around a Windows XP-inspired interface.",
       "tech": ["HTML", "CSS", "JavaScript"],
       "github": "https://github.com/hazmi-badrunsham/hazmi-badrunsham.github.io",
-      "demo": ""
+      "demo": "",
+      "image": { "src": "assets/images/project-portfolio.png", "alt": "Screenshot of this portfolio website" }
     }
   ],
 
@@ -1779,9 +2013,42 @@ code {
       "Simple responsive websites",
       "Website maintenance"
     ],
-    "ctaTitle": "Need a simple website?",
-    "ctaLabel": "Let's talk →",
-    "ctaUrl": "mailto:hello@hazmi.dev"
+    "toggleLabel": "See more",
+    "toggleLabelActive": "Hide work",
+    "showcaseTitle": "Things I've built for people",
+    "works": [
+      {
+        "title": "Friend's Portfolio",
+        "description": "A personal portfolio website built for a friend to showcase their work and projects.",
+        "tags": ["Portfolio", "Responsive"],
+        "image": { "src": "assets/images/work-friend-portfolio.png", "alt": "Screenshot of a portfolio website I built for a friend" },
+        "demo": ""
+      },
+      {
+        "title": "Cafe Landing Page",
+        "description": "A simple landing page for a cafe — menu, opening hours, location and contact details.",
+        "tags": ["Landing page", "HTML/CSS"],
+        "image": { "src": "assets/images/work-cafe-one.png", "alt": "Screenshot of a cafe landing page" },
+        "demo": ""
+      },
+      {
+        "title": "POS System Web App",
+        "description": "A web-based point-of-sale system for handling orders and sales at a small shop.",
+        "tags": ["Web app", "JavaScript"],
+        "image": { "src": "assets/images/work-pos.png", "alt": "Screenshot of the POS system web app" },
+        "demo": ""
+      },
+      {
+        "title": "Second Cafe Landing Page",
+        "description": "Another cafe landing page — same idea, different look, layout and colour scheme.",
+        "tags": ["Landing page", "Responsive"],
+        "image": { "src": "assets/images/work-cafe-two.png", "alt": "Screenshot of a second cafe landing page" },
+        "demo": ""
+      }
+    ],
+    "contactLine": "",
+    "contactLabel": "",
+    "contactUrl": "mailto:hello@hazmi.dev"
   },
 
   "skills": [
@@ -1794,7 +2061,10 @@ code {
   "education": {
     "institution": "International Islamic University Malaysia",
     "degree": "Bachelor of Computer Science (Honours)",
-    "field": "Software Engineering"
+    "field": "Software Engineering",
+    "period": "Expected graduation: 2026",
+    "gcpa": "GCPA: 3.35",
+    "note": "Dean's List — Semester 6"
   },
 
   "contact": {
