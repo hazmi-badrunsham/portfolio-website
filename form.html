@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Start a project — Hazmi Badrunsham</title>
+  <meta name="description" content="Tell me about your landing page project and get a quote, timeline and next steps." />
+
+  <!-- Set the saved theme before first paint to avoid a flash of the wrong theme. -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('xpfolio-theme');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { /* storage unavailable */ }
+    })();
+  </script>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%232456c4'/%3E%3Crect x='1' y='1' width='14' height='4.5' rx='2' fill='%231a44a6'/%3E%3C/svg%3E" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/windows.css" />
+  <link rel="stylesheet" href="css/form.css" />
+</head>
+<body>
+  <a class="skip-link" href="#request-form">Skip to content</a>
+
+  <main class="form-page">
+
+    <div class="page-bar">
+      <a class="back-chip" href="/" data-i18n-label="backLabel">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3.5M7 4 3 8l4 4"/></svg>
+        <span class="back-label" data-i18n="back">Portfolio</span>
+      </a>
+
+      <span class="page-bar-spacer"></span>
+
+      <div class="lang-toggle" role="group" data-i18n-label="langGroupLabel">
+        <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" class="lang-btn" data-lang="bm" aria-pressed="false">BM</button>
+      </div>
+
+      <button type="button" class="tray-btn" id="theme-toggle" aria-label="Switch to dark mode"><span id="theme-icon"></span></button>
+    </div>
+
+    <section class="window" aria-labelledby="form-title">
+      <header class="titlebar">
+        <h1 class="window-title" id="form-title">
+          <span class="title-icon" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="1.5" width="11" height="13" rx="1.5"/><path d="M5 5h6M5 8h6M5 11h3"/></svg></span>
+          <span data-i18n="title">Project Request</span>
+        </h1>
+        <div class="window-controls">
+          <button type="button" class="win-btn" id="close-win" data-i18n-label="closeLabel" aria-label="Close and go back"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7"/></svg></button>
+        </div>
+      </header>
+
+      <div class="window-body">
+
+        <p class="form-lede" data-i18n="lede">Tell me about the project and I'll reply with a quote, a rough timeline and next steps. No obligation.</p>
+
+        <ol class="next-steps">
+          <li class="next-step">
+            <h3 data-i18n="step1Title">You fill in this form</h3>
+            <p data-i18n="step1Body">About three minutes. Only what matters.</p>
+          </li>
+          <li class="next-step">
+            <h3 data-i18n="step2Title">I reply within a day or two</h3>
+            <p data-i18n="step2Body">By email or WhatsApp, whichever you prefer.</p>
+          </li>
+          <li class="next-step">
+            <h3 data-i18n="step3Title">We agree on scope</h3>
+            <p data-i18n="step3Body">Clear price, timeline and deliverables before any work starts.</p>
+          </li>
+        </ol>
+
+        <p class="form-error" id="form-error" role="alert" hidden data-i18n="error">Something went wrong sending the form. Please try again, or email me directly.</p>
+
+        <form id="request-form"
+              name="project-request"
+              method="POST"
+              action="/"
+              data-netlify="true"
+              netlify-honeypot="bot-field">
+
+          <p class="hp-field">
+            <label>Do not fill this out<input type="text" name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </p>
+
+          <input type="hidden" name="form-name" value="project-request">
+          <input type="hidden" name="language" id="lang-field" value="en">
+
+          <!-- Contact details -->
+          <fieldset class="form-group">
+            <legend data-i18n="grpContact">Contact details</legend>
+            <div class="field-grid">
+
+              <div class="field">
+                <label class="field-label" for="full-name">
+                  <span data-i18n="fFullName">Full name</span> <span class="req" aria-hidden="true">*</span>
+                </label>
+                <input class="input" id="full-name" name="full-name" type="text" autocomplete="name" required
+                       placeholder="e.g. Ahmad Rahman" data-i18n-placeholder="phName">
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="email">
+                  <span data-i18n="fEmail">Email address</span> <span class="req" aria-hidden="true">*</span>
+                </label>
+                <input class="input" id="email" name="email" type="email" autocomplete="email" required
+                       placeholder="you@company.com" data-i18n-placeholder="phEmail">
+              </div>
+
+              <div class="field field-full">
+                <label class="field-label" for="phone">
+                  <span data-i18n="fPhone">WhatsApp / phone number</span>
+                  <span class="opt-tag" data-i18n="optional">Optional</span>
+                </label>
+                <input class="input" id="phone" name="phone" type="tel" autocomplete="tel"
+                       placeholder="+60 12-345 6789" data-i18n-placeholder="phPhone">
+              </div>
+
+            </div>
+          </fieldset>
+
+          <!-- Project goals -->
+          <fieldset class="form-group">
+            <legend data-i18n="grpProject">Project &amp; goals</legend>
+            <div class="field-grid">
+
+              <div class="field field-full">
+                <label class="field-label" for="business">
+                  <span data-i18n="fBusiness">Business or product name</span> <span class="req" aria-hidden="true">*</span>
+                </label>
+                <input class="input" id="business" name="business-name" type="text" required
+                       placeholder="e.g. Yadd's Cafe" data-i18n-placeholder="phBusiness">
+              </div>
+
+              <div class="field field-full">
+                <label class="field-label" for="goal">
+                  <span data-i18n="fGoal">Main goal of this landing page</span> <span class="req" aria-hidden="true">*</span>
+                </label>
+                <div class="select-wrap">
+                  <select class="select" id="goal" name="goal" required>
+                    <option value="" data-i18n="goalPick">Choose one…</option>
+                    <option value="leads" data-i18n="goalLeads">Collect leads</option>
+                    <option value="sell" data-i18n="goalSell">Sell a product</option>
+                    <option value="book" data-i18n="goalBook">Book calls or appointments</option>
+                    <option value="showcase" data-i18n="goalShowcase">Showcase work or portfolio</option>
+                    <option value="other" data-i18n="goalOther">Something else</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </fieldset>
+
+          <!-- Content & assets -->
+          <fieldset class="form-group">
+            <legend data-i18n="grpContent">Content &amp; assets</legend>
+
+            <div class="field">
+              <p class="field-label" id="lbl-copy" data-i18n="fCopy">Do you have the copy / text ready?</p>
+              <div class="choices" role="radiogroup" aria-labelledby="lbl-copy">
+                <label class="choice"><input type="radio" name="copy-ready" value="yes" required><span data-i18n="copyYes">Yes, I have it ready</span></label>
+                <label class="choice"><input type="radio" name="copy-ready" value="need-help"><span data-i18n="copyNo">No, I need help</span></label>
+              </div>
+            </div>
+
+            <div class="field">
+              <p class="field-label" id="lbl-brand" data-i18n="fBrand">Do you have brand assets (logo, colour scheme)?</p>
+              <div class="choices" role="radiogroup" aria-labelledby="lbl-brand">
+                <label class="choice"><input type="radio" name="brand-assets" value="yes" required><span data-i18n="brandYes">Yes, I have them</span></label>
+                <label class="choice"><input type="radio" name="brand-assets" value="need-help"><span data-i18n="brandNo">No, need help designing</span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Technical add-ons -->
+          <fieldset class="form-group">
+            <legend data-i18n="grpTech">Technical add-ons</legend>
+
+            <div class="field">
+              <p class="field-label" id="lbl-cform" data-i18n="fContactForm">Contact form connected to email or Google Sheets?</p>
+              <div class="choices" role="radiogroup" aria-labelledby="lbl-cform">
+                <label class="choice"><input type="radio" name="need-contact-form" value="yes"><span data-i18n="yes">Yes</span></label>
+                <label class="choice"><input type="radio" name="need-contact-form" value="no" checked><span data-i18n="no">No</span></label>
+              </div>
+            </div>
+
+            <div class="field">
+              <p class="field-label" id="lbl-social" data-i18n="fSocial">Social media links or analytics embedded?</p>
+              <div class="choices" role="radiogroup" aria-labelledby="lbl-social">
+                <label class="choice"><input type="radio" name="need-social-analytics" value="yes"><span data-i18n="yes">Yes</span></label>
+                <label class="choice"><input type="radio" name="need-social-analytics" value="no" checked><span data-i18n="no">No</span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Timeline -->
+          <fieldset class="form-group">
+            <legend data-i18n="grpTimeline">Timeline</legend>
+            <div class="field-grid">
+              <div class="field">
+                <label class="field-label" for="launch-date">
+                  <span data-i18n="fLaunch">Expected target launch date</span>
+                  <span class="opt-tag" data-i18n="optional">Optional</span>
+                </label>
+                <input class="input" id="launch-date" name="launch-date" type="date">
+              </div>
+
+              <div class="field field-full">
+                <label class="field-label" for="brief">
+                  <span data-i18n="fBrief">Anything else I should know?</span>
+                  <span class="opt-tag" data-i18n="optional">Optional</span>
+                </label>
+                <textarea class="textarea" id="brief" name="brief"
+                          placeholder="Pages you need, references you like, pages you already have…" data-i18n-placeholder="phBrief"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-submit" id="submit-btn" data-i18n="submit">Send project request</button>
+            <p class="form-note" data-i18n="note">Your details are only used to reply to this enquiry.</p>
+          </div>
+        </form>
+
+        <!-- Success state -->
+        <div class="success" id="success" hidden>
+          <span class="success-badge" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+          </span>
+          <h3 tabindex="-1" id="success-title" data-i18n="successTitle">Request received</h3>
+          <p data-i18n="successBody">Thanks — your brief is in. I'll get back to you within a day or two. You can close this tab.</p>
+          <p class="success-meta" data-i18n="successMeta">Sent from the project request form.</p>
+          <a class="btn" href="/" data-i18n="successBack">Back to portfolio</a>
+        </div>
+
+      </div>
+    </section>
+
+    <p class="site-footer" data-i18n="footer">Built with Vanilla JS.</p>
+  </main>
+
+  <script src="js/theme.js"></script>
+  <script src="js/form.js"></script>
+</body>
+</html>

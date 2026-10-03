@@ -92,18 +92,14 @@
         "tags": ["Google Sheet", "JavaScript"],
         "image": { "src": "assets/images/posyadd.jpeg", "alt": "Screenshot of the POS system web app" },
         "demo": "https://yadd-cafe.netlify.app/"
-      },
-      {
-        "title": "Second Cafe Landing Page",
-        "description": "Another cafe landing page — same idea, different look, layout and colour scheme.",
-        "tags": ["Landing page", "Responsive"],
-        "image": { "src": "assets/images/work-cafe-two.png", "alt": "Screenshot of a second cafe landing page" },
-        "demo": ""
       }
     ],
     "contactLine": "",
     "contactLabel": "",
-    "contactUrl": "hazmi.badrunsham@gmail.com"
+    "contactUrl": "hazmi.badrunsham@gmail.com",
+    "ctaTitle": "Need a landing page for your business?",
+    "ctaLabel": "Let's talk →",
+    "ctaUrl": "/form"
   },
 
   "skills": [
